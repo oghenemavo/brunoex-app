@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\InvestmentController;
 use App\Http\Controllers\User\ResetPasswordController;
 use App\Http\Controllers\User\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -38,10 +39,12 @@ Route::name('user.')->group(function() {
     });
 
     // Route::get('dashboard', [TransactionController::class, 'index'])->name('dashboard');
-
     Route::get('deposit', [TransactionController::class, 'deposit'])->name('deposit');
     Route::post('deposit/create', [TransactionController::class, 'makeDeposit'])->name('make.deposit');
     Route::get('withdraw', [TransactionController::class, 'withdraw'])->name('withdraw');
     Route::post('withdraw/create', [TransactionController::class, 'makeWithdrawal'])->name('make.withdraw');
+    
+    Route::get('invest', [InvestmentController::class, 'invest'])->name('invest');
+    Route::post('invest/create', [InvestmentController::class, 'makeInvestment'])->name('make.investment');
 
 });

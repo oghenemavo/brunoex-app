@@ -24,7 +24,7 @@ class TransactionController extends Controller
         $data = $request->validated();
         $this->userTransactionRepository->depositRequest($data);
 
-        return redirect()->route('user.deposit')->with('success', 'Deposit Requested, Admin Verification');;
+        return redirect()->route('user.deposit')->with('success', 'Deposit Requested, Admin Verification');
     }
 
     public function withdraw()
@@ -37,6 +37,6 @@ class TransactionController extends Controller
         $data = $request->validated();
         $this->userTransactionRepository->withdrawRequest($data);
 
-        return redirect()->route('user.withdraw')->with('success', 'Withdrawal Requested, Admin Verification');;
+        return redirect()->route('user.withdraw')->with('success', 'Withdrawal Requested, Admin Verification');
     }
 }
