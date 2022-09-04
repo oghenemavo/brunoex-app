@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\User\AuthController;
@@ -94,6 +95,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
         Route::get('withdraws', [AdminTransactionController::class, 'withdraw'])->name('withdraw');
         Route::put('withdraw/{withdraw}/edit', [AdminTransactionController::class, 'validateWithdrawal'])->name('validate.withdraw');
+
+        Route::resource('plans', PlanController::class);
 
     });
 
