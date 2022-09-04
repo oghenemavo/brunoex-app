@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('plan');
             $table->decimal('amount', 16, 2);
             $table->decimal('profit', 16, 2);
-            $table->json('details');
+            $table->json('details')->nullable();
             $table->string('status');
             $table->timestamps();
             $table->dateTime('due_at');

@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_requests', function (Blueprint $table) {
+        Schema::create('wallets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('request');
-            $table->decimal('amount', 16, 2);
-            $table->json('details')->nullable();
-            $table->string('status');
+            $table->foreignId('user_id')->references('id')->on('users')->unique();
+            $table->decimal('balance', 16, 2)->default('0.00');
+            $table->decimal('ledger_balance', 16, 2)->default('0.00');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_requests');
+        Schema::dropIfExists('wallets');
     }
 };

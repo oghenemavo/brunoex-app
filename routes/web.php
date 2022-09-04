@@ -43,6 +43,9 @@ Route::name('user.')->group(function() {
     Route::post('deposit/create', [TransactionController::class, 'makeDeposit'])->name('make.deposit');
     Route::get('withdraw', [TransactionController::class, 'withdraw'])->name('withdraw');
     Route::post('withdraw/create', [TransactionController::class, 'makeWithdrawal'])->name('make.withdraw');
+
+    Route::get('transfer', [TransactionController::class, 'transfer'])->name('transfer');
+    Route::post('transfer/create', [TransactionController::class, 'makeTransfer'])->name('make.transfer');
     
     Route::get('invest', [InvestmentController::class, 'invest'])->name('invest');
     Route::post('invest/create', [InvestmentController::class, 'makeInvestment'])->name('make.investment');

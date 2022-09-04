@@ -19,7 +19,7 @@ class AuthController extends Controller
     }
 
     public function createUser(UserCreateRequest $request)
-    {  
+    {
         $data = $request->validated();
         $user = $this->userRepository->createUser($data);
 
@@ -27,9 +27,9 @@ class AuthController extends Controller
             return redirect()->route('homepage')->with('success', 'Categories Created Successfully!');
         }
 
-        return redirect()->route('user.auth.signup')->with('danger', 'Unable to create user account, try again later!');
+        return redirect()->route('user.signup')->with('danger', 'Unable to create user account, try again later!');
     }
-    
+
     public function login()
     {
         return view('user.auth.login');
@@ -52,7 +52,8 @@ class AuthController extends Controller
         ])->withInput();
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

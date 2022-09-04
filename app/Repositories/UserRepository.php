@@ -4,25 +4,42 @@ namespace App\Repositories;
 
 use App\Interfaces\IUserRepository;
 use App\Models\User;
+use App\Models\Wallet;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements IUserRepository
 {
-    public function __construct(protected User $user)
+    public function __construct(protected User $user, protected Wallet $wallet)
     {
-        $this->user = $user;
     }
 
     public function createUser(array $attributes)
     {
-        return $this->user->create([
-            'name' => data_get($attributes, 'name'),
-            // 'last_name' => data_get($attributes, 'last_name'),
-            // 'phone_number' => data_get($attributes, 'phone_number'),
-            // 'address' => data_get($attributes, 'address'),
-            'email' => data_get($attributes, 'email'),
-            'password' => Hash::make(data_get($attributes, 'password')),
-        ]);
+        try {
+            DB::beginTransaction();
+
+            $user = $this->user->create([
+                'name' => data_get($attributes, 'name'),
+                // 'last_name' => data_get($attributes, 'last_name'),
+                // 'phone_number' => data_get($attributes, 'phone_number'),
+                // 'address' => data_get($attributes, 'address'),
+                'email' => data_get($attributes, 'email'),
+                'password' => Hash::make(data_get($attributes, 'password')),
+            ]);
+
+            $this->wallet->create([
+                'user_id' => $user->id
+            ]);
+
+            DB::commit();
+
+            return true;
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            echo $ex->getMessage();
+        }
+        return false;
     }
 
     public function updateUser(array $attributes, User $user)

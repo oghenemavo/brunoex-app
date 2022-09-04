@@ -16,7 +16,7 @@ class UserInvestRepository implements IUserInvestRepository
     {
         return $this->investment->create([
             'user_id' => auth()->user()->id,
-            'transaction_id' => auth()->user()->id,
+            'transaction_id' => 1,
             'plan' => '10',
             'amount' => data_get($attributes, 'amount'),
             'profit' => '10.45',

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('type');
             $table->decimal('amount', 16, 2);
-            $table->json('details');
+            $table->json('details')->nullable();
             $table->string('status');
             $table->timestamps();
         });
