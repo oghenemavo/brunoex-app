@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\TransactionTypeEnum;
 use App\Enums\TransRequestStatusEnum;
 use App\Interfaces\ITransactionRepository;
 use App\Models\Transaction;
@@ -39,7 +40,7 @@ class TransactionRepository implements ITransactionRepository
             Transaction::create(
                 [
                     'user_id' => $recipient->id,
-                    'type' => 'Credit',
+                    'type' => TransactionTypeEnum::CREDIT,
                     'amount' => $amount,
                     'details' => json_encode($details),
                     'status' => 'COMPLETED',
@@ -72,7 +73,7 @@ class TransactionRepository implements ITransactionRepository
             Transaction::create(
                 [
                     'user_id' => $recipient->id,
-                    'type' => 'Debit',
+                    'type' => TransactionTypeEnum::DEBIT,
                     'amount' => $amount,
                     'details' => json_encode($details),
                     'status' => 'COMPLETED',
@@ -107,7 +108,7 @@ class TransactionRepository implements ITransactionRepository
                 Transaction::create(
                     [
                         'user_id' => $user->id,
-                        'type' => 'Credit',
+                        'type' => TransactionTypeEnum::CREDIT,
                         'amount' => $amount,
                         'details' => json_encode($details),
                         'status' => 'COMPLETED',
@@ -148,7 +149,7 @@ class TransactionRepository implements ITransactionRepository
                 Transaction::create(
                     [
                         'user_id' => $user->id,
-                        'type' => 'Debit',
+                        'type' => TransactionTypeEnum::DEBIT,
                         'amount' => $amount,
                         'details' => json_encode($details),
                         'status' => 'COMPLETED',
