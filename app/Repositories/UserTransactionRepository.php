@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\TransRequestStatusEnum;
 use App\Interfaces\IUserTransactionRepository;
 use App\Models\Transaction;
 use App\Models\TransactionRequest;
@@ -24,7 +25,7 @@ class UserTransactionRepository implements IUserTransactionRepository
         return $this->transRequest->create([
             'user_id' => auth()->user()->id,
             'request' => 'DEPOSIT',
-            'status' => 'PENDING',
+            'status' => TransRequestStatusEnum::PENDING,
             'details' => json_encode([]),
             'amount' => data_get($attributes, 'amount'),
         ]);
@@ -35,7 +36,7 @@ class UserTransactionRepository implements IUserTransactionRepository
         return $this->transRequest->create([
             'user_id' => auth()->user()->id,
             'request' => 'WITHDRAW',
-            'status' => 'PENDING',
+            'status' => TransRequestStatusEnum::PENDING,
             'details' => json_encode([]),
             'amount' => data_get($attributes, 'amount'),
         ]);

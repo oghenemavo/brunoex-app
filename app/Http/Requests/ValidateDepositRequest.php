@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TransRequestStatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class ValidateDepositRequest extends FormRequest
 {
@@ -25,7 +28,10 @@ class ValidateDepositRequest extends FormRequest
     {
         return [
             'action' => 'required|in:1,2',
-            'status' => 'required|in:PENDING',
+            'status' => [
+                'required|in:pending',
+                Rule::in([new Enum(TransRequestStatusEnum::class)]),
+            ],
         ];
     }
 }

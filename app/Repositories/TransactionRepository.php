@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\TransRequestStatusEnum;
 use App\Interfaces\ITransactionRepository;
 use App\Models\Transaction;
 use App\Models\TransactionRequest;
@@ -92,7 +93,7 @@ class TransactionRepository implements ITransactionRepository
             $user = $deposit->user;
             $action = data_get($attributes, 'action');
 
-            if ($action == '1' && $deposit->request == 'DEPOSIT' && $deposit->status == 'PENDING') {
+            if ($action == '1' && $deposit->request == 'DEPOSIT' && $deposit->status == TransRequestStatusEnum::PENDING) {
                 $user->wallet->balance += $amount;
                 $user->wallet->save();
                 
@@ -116,7 +117,7 @@ class TransactionRepository implements ITransactionRepository
                 );
             }
             
-            $status =  $action == '1' ? 'COMPLETED' : 'REJECTED';
+            $status =  $action == '1' ? TransRequestStatusEnum::COMPLETED : TransRequestStatusEnum::REJECTED;
 
             $deposit->status = $status;
             $deposit->save();
@@ -133,7 +134,7 @@ class TransactionRepository implements ITransactionRepository
             $user = $withdraw->user;
             $action = data_get($attributes, 'action');
 
-            if ($action == '1' && $withdraw->request == 'WITHDRAW' && $withdraw->status == 'PENDING') {
+            if ($action == '1' && $withdraw->request == 'WITHDRAW' && $withdraw->status == TransRequestStatusEnum::PENDING) {
                 $user->wallet->balance -= $amount;
                 $user->wallet->save();
                 
@@ -157,7 +158,7 @@ class TransactionRepository implements ITransactionRepository
                 );
             }
             
-            $status =  $action == '1' ? 'COMPLETED' : 'REJECTED';
+            $status =  $action == '1' ? TransRequestStatusEnum::COMPLETED : TransRequestStatusEnum::REJECTED;
 
             $withdraw->status = $status;
             $withdraw->save();
