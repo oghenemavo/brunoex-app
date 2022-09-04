@@ -53,7 +53,7 @@ class UserTransactionRepository implements IUserTransactionRepository
                 $user->wallet->save();
                 
                 $recipient = User::where('email', data_get($attributes, 'email'))->first();
-                $recipient->wallet->balance += data_get($attributes, 'amount');
+                $recipient->wallet->balance += $amount;
                 $recipient->wallet->save();
 
                 $detailsOut = [
@@ -73,7 +73,7 @@ class UserTransactionRepository implements IUserTransactionRepository
                         'uuid' => $uuid,
                         'user_id' => $user->id,
                         'type' => 'Debit',
-                        'amount' => data_get($attributes, 'amount'),
+                        'amount' => $amount,
                         'details' => json_encode($detailsOut),
                         'status' => 'COMPLETED',
                         'created_at' => Carbon::now(),
@@ -83,7 +83,7 @@ class UserTransactionRepository implements IUserTransactionRepository
                         'uuid' => $uuid,
                         'user_id' => $recipient->id,
                         'type' => 'Credit',
-                        'amount' => data_get($attributes, 'amount'),
+                        'amount' => $amount,
                         'details' => json_encode($detailsIn),
                         'status' => 'COMPLETED',
                         'created_at' => Carbon::now(),

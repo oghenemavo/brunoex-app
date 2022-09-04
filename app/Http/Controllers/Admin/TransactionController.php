@@ -3,27 +3,34 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BonusRequest;
+use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
 
-    public function bonus()
+    public function __construct(protected TransactionRepository $transactionRepository)
     {
-        return view('admin.dashboard.bonus');
+        
     }
 
-    public function makeDeposit(Request $request)
+    public function bonus()
     {
-        // $data = $request->validated();
-        // $this->userTransactionRepository->depositRequest($data);
+        return view('admin.transactions.bonus');
+    }
 
-        return redirect()->route('user.deposit')->with('success', 'Bonus Initiated Successfully');
+    public function addBonus(BonusRequest $request)
+    {
+        $data = $request->validated();
+        $this->transactionRepository->bonus($data);
+
+        return redirect()->route('admin.bonus')->with('success', 'Bonus Initiated Successfully');
     }
 
     public function penalty()
     {
-        return view('admin.dashboard.penalty');
+        return view('admin.transactions.penalty');
     }
 
     public function makeWithdrawal(Request $request)
@@ -36,7 +43,7 @@ class TransactionController extends Controller
 
     public function deposit()
     {
-        return view('user.dashboard.transfer');
+        return view('adnin.transactions.transfer');
     }
 
     public function validateDeposit(Request $request)
@@ -46,12 +53,12 @@ class TransactionController extends Controller
         // if ($this->userTransactionRepository->transfer($data)) {
         //     return redirect()->route('user.transfer')->with('success', 'Transfer Successful');
         // }
-        return redirect()->route('user.transfer')->with('danger', 'Unable to perform transfer');
+        return redirect()->route('admin.deposit')->with('danger', 'Unable to perform transfer');
     }
 
     public function withdraw()
     {
-        return view('admin.dashboard.transfer');
+        return view('admin.transactions.transfer');
     }
 
     public function validateWithdrawal(Request $request)
@@ -61,6 +68,6 @@ class TransactionController extends Controller
         // if ($this->userTransactionRepository->transfer($data)) {
         //     return redirect()->route('user.transfer')->with('success', 'Transfer Successful');
         // }
-        return redirect()->route('user.transfer')->with('danger', 'Unable to perform transfer');
+        return redirect()->route('admin.withdraw')->with('danger', 'Unable to perform transfer');
     }
 }

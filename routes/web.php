@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordController;
+use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\InvestmentController;
 use App\Http\Controllers\User\ResetPasswordController;
@@ -81,6 +82,12 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('dashboard', function() {
             echo 'admin dashboard';
         })->name('dashboard');
+
+        Route::get('bonus', [AdminTransactionController::class, 'bonus'])->name('bonus');
+        Route::post('bonus/create', [AdminTransactionController::class, 'addBonus'])->name('add.bonus');
+
+        Route::get('penalty', [AdminTransactionController::class, 'penalty'])->name('penalty');
+        Route::post('penalty/create', [AdminTransactionController::class, 'addPenalty'])->name('add.penalty');
 
     });
 
