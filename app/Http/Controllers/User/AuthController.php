@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Events\LoginUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCreateRequest;
 use App\Repositories\UserRepository;
@@ -44,6 +45,8 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (auth()->attempt($credentials)) {
+            event(new LoginUser(auth()->user()));
+            
             return redirect()->route('user.dashboard');
         }
 

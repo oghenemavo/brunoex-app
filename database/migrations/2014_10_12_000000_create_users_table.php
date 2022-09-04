@@ -24,6 +24,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('status')->default('ACTIVE');
             $table->timestamps();
+            $table->string('last_login_at')->nullable();
         });
     }
 
