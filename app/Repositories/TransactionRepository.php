@@ -74,4 +74,37 @@ class TransactionRepository implements ITransactionRepository
         return false;
     }
 
+    public function penalty(array $attributes)
+    {
+        DB::transaction(function() use($attributes) {
+            $amount = data_get($attributes, 'amount');
+            
+            $recipient = User::where('uuid', data_get($attributes, 'uuid'))->first();
+            $recipient->wallet->balance -= $amount;
+            $recipient->wallet->save();
+            
+            $details = [
+                'narration' => data_get($attributes, 'narration', ''), 
+                'type' => 'PENALTY',
+                'sender_type' => 'ADMIN',
+                'sender' => auth()->guard('admin')->user()->email
+            ];
+            
+            Transaction::create(
+                [
+                    'user_id' => $recipient->id,
+                    'type' => 'Debit',
+                    'amount' => $amount,
+                    'details' => json_encode($details),
+                    'status' => 'COMPLETED',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ],
+            );
+
+            return true;
+        });
+        return false;
+    }
+
 }

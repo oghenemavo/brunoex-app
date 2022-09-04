@@ -1,12 +1,12 @@
-<form action="{{ route('user.make.transfer') }}" method="POST">
+<form action="{{ route('admin.add.penalty') }}" method="POST">
     @csrf
 
     <div class="form-group row">
-        <label for="email" class="col-md-4 col-form-label text-md-right">email</label>
+        <label for="uuid" class="col-md-4 col-form-label text-md-right">uuid</label>
         <div class="col-md-6">
-            <input type="email" id="email" class="form-control" name="email" required>
-            @if ($errors->has('email'))
-                <span class="text-danger">{{ $errors->first('email') }}</span>
+            <input type="text" id="uuid" class="form-control" name="uuid" required>
+            @if ($errors->has('uuid'))
+                <span class="text-danger">{{ $errors->first('uuid') }}</span>
             @endif
         </div>
     </div>

@@ -24,7 +24,6 @@ class TransactionController extends Controller
     {
         $data = $request->validated();
         $this->transactionRepository->bonus($data);
-
         return redirect()->route('admin.bonus')->with('success', 'Bonus Initiated Successfully');
     }
 
@@ -33,12 +32,11 @@ class TransactionController extends Controller
         return view('admin.transactions.penalty');
     }
 
-    public function makeWithdrawal(Request $request)
+    public function addPenalty(BonusRequest $request)
     {
-        // $data = $request->validated();
-        // $this->userTransactionRepository->withdrawRequest($data);
-
-        return redirect()->route('user.withdraw')->with('success', 'Penalty Initiated Successfully');
+        $data = $request->validated();
+        $this->transactionRepository->penalty($data);
+        return redirect()->route('user.penalty')->with('success', 'Penalty Initiated Successfully');
     }
 
     public function deposit()
