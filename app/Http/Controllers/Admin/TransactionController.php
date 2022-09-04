@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BonusRequest;
+use App\Http\Requests\ValidateDepositRequest;
+use App\Models\TransactionRequest;
 use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,6 @@ class TransactionController extends Controller
 
     public function __construct(protected TransactionRepository $transactionRepository)
     {
-        
     }
 
     public function bonus()
@@ -41,31 +42,27 @@ class TransactionController extends Controller
 
     public function deposit()
     {
-        return view('adnin.transactions.transfer');
+        return view('admin.transactions.deposit', ['deposit' => TransactionRequest::find('2')]);
     }
 
-    public function validateDeposit(Request $request)
+    public function validateDeposit(ValidateDepositRequest $request, TransactionRequest $deposit)
     {
         $data = $request->validated();
 
-        // if ($this->userTransactionRepository->transfer($data)) {
-        //     return redirect()->route('user.transfer')->with('success', 'Transfer Successful');
-        // }
-        return redirect()->route('admin.deposit')->with('danger', 'Unable to perform transfer');
+        $this->transactionRepository->validateDeposit($data, $deposit);
+        return redirect()->route('admin.deposit')->with('success', 'Deposit Initiated Successfully');
     }
 
     public function withdraw()
     {
-        return view('admin.transactions.transfer');
+        return view('admin.transactions.withdraw', ['withdraw' => TransactionRequest::find('3')]);
     }
 
-    public function validateWithdrawal(Request $request)
+    public function validateWithdrawal(ValidateDepositRequest $request, TransactionRequest $withdraw)
     {
-        // $data = $request->validated();
+        $data = $request->validated();
 
-        // if ($this->userTransactionRepository->transfer($data)) {
-        //     return redirect()->route('user.transfer')->with('success', 'Transfer Successful');
-        // }
-        return redirect()->route('admin.withdraw')->with('danger', 'Unable to perform transfer');
+        $this->transactionRepository->validateWithdraw($data, $withdraw);
+        return redirect()->route('admin.withdraw')->with('success', 'Withdraw Initiated Successfully');
     }
 }

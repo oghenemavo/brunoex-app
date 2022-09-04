@@ -1,10 +1,10 @@
-<form action="{{ route('admin.validate.deposit', $deposit->id) }}" method="POST">
+<form action="{{ route('admin.validate.withdraw', $withdraw->id) }}" method="POST">
     @csrf
     @method('PUT')
 
-    <p>Amount: {{ $deposit->amount }}</p>
+    <p>Amount: {{ $withdraw->amount }}</p>
 
-    <input type="hidden" name="status" value="{{ $deposit->status }}">
+    <input type="hidden" name="status" value="{{ $withdraw->status }}">
 
     <select name="action">
         <option value="1">Accept</option>

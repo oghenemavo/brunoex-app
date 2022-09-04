@@ -19,28 +19,6 @@ class TransactionRepository implements ITransactionRepository
     {
     }
 
-    // public function depositRequest(array $attributes)
-    // {
-    //     return $this->transRequest->create([
-    //         'user_id' => auth()->user()->id,
-    //         'request' => 'DEPOSIT',
-    //         'status' => 'PENDING',
-    //         'details' => json_encode([]),
-    //         'amount' => data_get($attributes, 'amount'),
-    //     ]);
-    // }
-
-    // public function withdrawRequest(array $attributes)
-    // {
-    //     return $this->transRequest->create([
-    //         'user_id' => auth()->user()->id,
-    //         'request' => 'WITHDRAW',
-    //         'status' => 'PENDING',
-    //         'details' => json_encode([]),
-    //         'amount' => data_get($attributes, 'amount'),
-    //     ]);
-    // }
-
     public function bonus(array $attributes)
     {
         DB::transaction(function() use($attributes) {
@@ -101,6 +79,88 @@ class TransactionRepository implements ITransactionRepository
                     'updated_at' => Carbon::now(),
                 ],
             );
+
+            return true;
+        });
+        return false;
+    }
+
+    public function validateDeposit(array $attributes, TransactionRequest $deposit)
+    {
+        DB::transaction(function() use($attributes, $deposit) {
+            $amount = $deposit->amount;
+            $user = $deposit->user;
+            $action = data_get($attributes, 'action');
+
+            if ($action == '1' && $deposit->request == 'DEPOSIT' && $deposit->status == 'PENDING') {
+                $user->wallet->balance += $amount;
+                $user->wallet->save();
+                
+                $details = [
+                    'narration' => 'Deposit Verified', 
+                    'type' => 'Deposit',
+                    'sender_type' => 'Admin',
+                    'sender' => auth()->guard('admin')->user()->email
+                ];
+                
+                Transaction::create(
+                    [
+                        'user_id' => $user->id,
+                        'type' => 'Credit',
+                        'amount' => $amount,
+                        'details' => json_encode($details),
+                        'status' => 'COMPLETED',
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ],
+                );
+            }
+            
+            $status =  $action == '1' ? 'COMPLETED' : 'REJECTED';
+
+            $deposit->status = $status;
+            $deposit->save();
+
+            return true;
+        });
+        return false;
+    }
+
+    public function validateWithdraw(array $attributes, TransactionRequest $withdraw)
+    {
+        DB::transaction(function() use($attributes, $withdraw) {
+            $amount = $withdraw->amount;
+            $user = $withdraw->user;
+            $action = data_get($attributes, 'action');
+
+            if ($action == '1' && $withdraw->request == 'WITHDRAW' && $withdraw->status == 'PENDING') {
+                $user->wallet->balance -= $amount;
+                $user->wallet->save();
+                
+                $details = [
+                    'narration' => 'Withdraw Verified', 
+                    'type' => 'Withdraw',
+                    'sender_type' => 'Admin',
+                    'sender' => auth()->guard('admin')->user()->email
+                ];
+                
+                Transaction::create(
+                    [
+                        'user_id' => $user->id,
+                        'type' => 'Debit',
+                        'amount' => $amount,
+                        'details' => json_encode($details),
+                        'status' => 'COMPLETED',
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ],
+                );
+            }
+            
+            $status =  $action == '1' ? 'COMPLETED' : 'REJECTED';
+
+            $withdraw->status = $status;
+            $withdraw->save();
 
             return true;
         });

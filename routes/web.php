@@ -89,6 +89,12 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('penalty', [AdminTransactionController::class, 'penalty'])->name('penalty');
         Route::post('penalty/create', [AdminTransactionController::class, 'addPenalty'])->name('add.penalty');
 
+        Route::get('deposits', [AdminTransactionController::class, 'deposit'])->name('deposit');
+        Route::put('deposit/{deposit}/edit', [AdminTransactionController::class, 'validateDeposit'])->name('validate.deposit');
+
+        Route::get('withdraws', [AdminTransactionController::class, 'withdraw'])->name('withdraw');
+        Route::put('withdraw/{withdraw}/edit', [AdminTransactionController::class, 'validateWithdrawal'])->name('validate.withdraw');
+
     });
 
 });
