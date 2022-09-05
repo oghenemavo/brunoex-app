@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\InvestmentController;
 use App\Http\Controllers\User\ResetPasswordController;
 use App\Http\Controllers\User\TransactionController;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 })->name('homepage');
 
 
@@ -46,9 +47,7 @@ Route::name('user.')->group(function() {
     Route::middleware('auth:web')->group(function () {
         Route::get('logout', [AuthController::class, 'logout'])->name('logout');
         
-        Route::get('dashboard', function() {
-            echo 'user dashboard';
-        })->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('deposit', [TransactionController::class, 'deposit'])->name('deposit');
         Route::post('deposit/create', [TransactionController::class, 'makeDeposit'])->name('make.deposit');
         Route::get('withdraw', [TransactionController::class, 'withdraw'])->name('withdraw');

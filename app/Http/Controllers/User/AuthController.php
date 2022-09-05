@@ -25,7 +25,7 @@ class AuthController extends Controller
         $user = $this->userRepository->createUser($data);
 
         if ($user) {
-            return redirect()->route('homepage')->with('success', 'Categories Created Successfully!');
+            return redirect()->route('homepage')->with('success', 'User Created Successfully!');
         }
 
         return redirect()->route('user.signup')->with('danger', 'Unable to create user account, try again later!');
