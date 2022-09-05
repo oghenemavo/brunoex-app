@@ -56,8 +56,9 @@ Route::name('user.')->group(function() {
         Route::get('transfer', [TransactionController::class, 'transfer'])->name('transfer');
         Route::post('transfer/create', [TransactionController::class, 'makeTransfer'])->name('make.transfer');
         
-        Route::get('invest', [InvestmentController::class, 'invest'])->name('invest');
-        Route::post('invest/create', [InvestmentController::class, 'makeInvestment'])->name('make.investment');
+        Route::get('plans', [InvestmentController::class, 'plans'])->name('plans');
+        Route::get('invest', [InvestmentController::class, 'index'])->name('invest');
+        Route::post('invest/create', [InvestmentController::class, 'invest'])->name('make.investment');
     });
     
 });
