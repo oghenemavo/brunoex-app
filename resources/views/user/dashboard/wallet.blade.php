@@ -20,8 +20,8 @@
                             </ul>
                         </div>
                     </li>
-                    <li><a href="#" class="btn btn-primary"><span>Send</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
-                    <li><a href="#" class="btn btn-dim btn-outline-light"><span>Withdraw</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
+                    <li><a href="{{ route('user.transfer') }}" class="btn btn-primary"><span>Send</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
+                    <li><a href="{{ route('user.withdraw') }}" class="btn btn-dim btn-outline-light"><span>Withdraw</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
                 </ul>
             </div>
         </div><!-- .nk-block-between -->

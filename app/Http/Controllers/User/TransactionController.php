@@ -53,9 +53,9 @@ class TransactionController extends Controller
     {
         $data = $request->validated();
 
-        if ($this->userTransactionRepository->transfer($data)) {
-            return redirect()->route('user.transfer')->with('success', 'Transfer Successful');
+        if ($this->userTransactionRepository->withdrawRequest($data)) {
+            return response()->json(['status' => true, 'message' => 'Transfer Successful']);
         }
-        return redirect()->route('user.transfer')->with('danger', 'Unable to perform transfer');
+        return response()->json(['status' => false, 'message' => 'Unable to perform transfer']);
     }
 }
