@@ -418,4 +418,8 @@
         </div><!-- .card -->
     </div><!-- .nk-block -->
 
+    @push('scripts')
+        <script src="{{ asset('assets/js/charts/chart-crypto.js?ver=3.0.3') }}"></script>
+    @endpush
+
 </x-layouts.dashboard.user>

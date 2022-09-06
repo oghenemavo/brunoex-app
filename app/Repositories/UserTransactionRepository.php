@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\TransactionTypeEnum;
 use App\Enums\TransRequestStatusEnum;
 use App\Interfaces\IUserTransactionRepository;
 use App\Models\Transaction;
@@ -48,7 +49,7 @@ class UserTransactionRepository implements IUserTransactionRepository
         $user = auth()->user();
         $amount = data_get($attributes, 'amount');
 
-        if ($this->validBalance($user, $amount)) {
+        if (validBalance($user, $amount)) {
             DB::transaction(function() use($user, $amount, $attributes) {
                 $user->wallet->balance -= $amount;
                 $user->wallet->save();
@@ -73,7 +74,7 @@ class UserTransactionRepository implements IUserTransactionRepository
                     [
                         'uuid' => $uuid,
                         'user_id' => $user->id,
-                        'type' => 'Debit',
+                        'type' => TransactionTypeEnum::DEBIT,
                         'amount' => $amount,
                         'details' => json_encode($detailsOut),
                         'status' => 'COMPLETED',
@@ -83,7 +84,7 @@ class UserTransactionRepository implements IUserTransactionRepository
                     [
                         'uuid' => $uuid,
                         'user_id' => $recipient->id,
-                        'type' => 'Credit',
+                        'type' => TransactionTypeEnum::CREDIT,
                         'amount' => $amount,
                         'details' => json_encode($detailsIn),
                         'status' => 'COMPLETED',
@@ -95,11 +96,6 @@ class UserTransactionRepository implements IUserTransactionRepository
             $isValid = true;
         }
         return $isValid;
-    }
-
-    public function validBalance(User $user, $amount): bool
-    {
-        return $user->wallet->balance >= $amount;
     }
 
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('transaction_id')->references('id')->on('transactions');
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('plan');
+            $table->json('plan');
             $table->decimal('amount', 16, 2);
             $table->decimal('profit', 16, 2);
             $table->json('details')->nullable();

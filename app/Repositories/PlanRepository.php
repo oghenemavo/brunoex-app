@@ -26,7 +26,7 @@ class PlanRepository implements IPlanRepository
         return $this->plan->create([
             'user_id' => auth()->guard('admin')->user()->id,
             'name' => data_get($attributes, 'plan_name'),
-            'meta' => json_encode($meta),
+            'meta' => $meta,
             'status' => 'active',
         ]);
     }

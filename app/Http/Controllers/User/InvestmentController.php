@@ -19,15 +19,16 @@ class InvestmentController extends Controller
     {
         $data = [];
         $data['plans'] = Plan::query()->where('status', 'active')->get();
-        return view('user.dashboard.invest');
+        return view('user.dashboard.invest', $data);
     }
     
     public function invest(InvestRequest $request)
     {
         $data = $request->validated();
-        $this->userInvestRepository->invest($data);
-        
-        return redirect()->route('user.invest')->with('success', 'Investment Successful');
+        if ($this->userInvestRepository->invest($data)) {
+            return response()->json(['status' => true, 'message' => 'Investment created']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to setup Investment']);
     }
 
     public function plans()

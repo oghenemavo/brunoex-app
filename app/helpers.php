@@ -1,8 +1,62 @@
 <?php
 
+use App\Enums\DurationUnitEnum;
+use App\Enums\ProfitTypeEnum;
+use App\Models\User;
+use Carbon\Carbon;
+
 if (! function_exists('profit')) {
     function profit($amount, $plan)
     {
         return $amount * $plan;
+    }
+}
+
+if (! function_exists('validBalance')) {
+    function validBalance(User $user, $amount)
+    {
+        return $user->wallet->balance >= $amount;
+    }
+}
+
+if (! function_exists('setDuration')) {
+    function setDuration($unit, $period)
+    {
+        $duration = 0;
+        switch (DurationUnitEnum::tryFrom($unit)) {
+            case DurationUnitEnum::DAILY:
+                $duration = Carbon::now()->addDays($period);
+                break;
+
+            case DurationUnitEnum::WEEKLY:
+                $duration = Carbon::now()->addWeeks($period);
+                break;
+
+            case DurationUnitEnum::MONTHLY:
+                $duration = Carbon::now()->addMonths($period);
+                break;
+
+            case DurationUnitEnum::ANNUALLY:
+                $duration = Carbon::now()->addYears($period);
+                break;
+        }
+        return $duration;
+    }
+}
+
+if (! function_exists('getProfit')) {
+    function getProfit($type, $value, $amount = null)
+    {
+        $profit = (float) 0;
+        switch (ProfitTypeEnum::tryFrom($type)) {
+            case ProfitTypeEnum::FIXED:
+                $profit = $value;
+                break;
+
+            case ProfitTypeEnum::PERCENTAGE:
+                $profit = ($value/100) * $amount;
+                break;
+        }
+        return $profit;
     }
 }

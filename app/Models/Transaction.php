@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\TransactionTypeEnum;
 use App\Traits\Uuid;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,7 @@ class Transaction extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'type' => TransactionTypeEnum::class
+        'type' => TransactionTypeEnum::class,
+        'details' => AsCollection::class
     ];
 }
