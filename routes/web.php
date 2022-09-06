@@ -59,6 +59,7 @@ Route::name('user.')->group(function() {
         Route::get('plans', [InvestmentController::class, 'plans'])->name('plans');
         Route::get('invest', [InvestmentController::class, 'index'])->name('invest');
         Route::post('invest/create', [InvestmentController::class, 'invest'])->name('make.investment');
+        Route::get('wallet', [DashboardController::class, 'wallet'])->name('plans');
     });
     
 });
