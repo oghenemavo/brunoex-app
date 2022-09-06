@@ -23,9 +23,11 @@ class TransactionController extends Controller
     public function makeDeposit(DepositRequest $request)
     {
         $data = $request->validated();
-        $this->userTransactionRepository->depositRequest($data);
-
-        return redirect()->route('user.deposit')->with('success', 'Deposit Requested, Admin Verification');
+        
+        if ($this->userTransactionRepository->depositRequest($data)) {
+            return response()->json(['status' => true, 'message' => 'Deposit Requested, Admin Verifying shortly']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to Deposit right now contact Admin']);
     }
 
     public function withdraw()
@@ -36,9 +38,10 @@ class TransactionController extends Controller
     public function makeWithdrawal(DepositRequest $request)
     {
         $data = $request->validated();
-        $this->userTransactionRepository->withdrawRequest($data);
-
-        return redirect()->route('user.withdraw')->with('success', 'Withdrawal Requested, Admin Verification');
+        if ($this->userTransactionRepository->withdrawRequest($data)) {
+            return response()->json(['status' => true, 'message' => 'Withdrawal Requested, Admin Verifying shortly']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to Withdraw right now contact Admin']);
     }
 
     public function transfer()

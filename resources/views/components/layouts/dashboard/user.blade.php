@@ -67,8 +67,8 @@
                                     </ul>
                                     <div class="user-account-actions">
                                         <ul class="g-3">
-                                            <li><a href="#" class="btn btn-lg btn-primary"><span>Deposit</span></a></li>
-                                            <li><a href="#" class="btn btn-lg btn-warning"><span>Withdraw</span></a></li>
+                                            <li><a href="{{ route('user.deposit') }}" class="btn btn-lg btn-primary"><span>Deposit</span></a></li>
+                                            <li><a href="{{ route('user.withdraw') }}" class="btn btn-lg btn-warning"><span>Withdraw</span></a></li>
                                         </ul>
                                     </div>
                                 </div><!-- .nk-sidebar-widget -->

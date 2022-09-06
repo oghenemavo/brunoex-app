@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TransRequestStatusEnum;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,7 +22,8 @@ class TransactionRequest extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'status' => TransRequestStatusEnum::class
+        'status' => TransRequestStatusEnum::class,
+        'details' => AsCollection::class
     ];
 
     public function user(): BelongsTo

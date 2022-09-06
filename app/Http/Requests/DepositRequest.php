@@ -24,7 +24,8 @@ class DepositRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|numeric|min:0.1'
+            'amount' => 'required|numeric|min:0.1',
+            'narration' => 'sometimes|required|string|min:5',
         ];
     }
 }

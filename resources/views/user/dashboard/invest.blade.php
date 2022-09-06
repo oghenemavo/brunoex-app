@@ -103,7 +103,7 @@
                     //     $('div[data-error="product_name"]').text(errors.product_name[0])
                     // } 
             
-                    // $(this).find('button').attr('disabled', false);
+                    $('#invest').find('button').attr('disabled', false);
             
                     // display toast alert
                     // display toast alert

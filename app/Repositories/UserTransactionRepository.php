@@ -27,7 +27,9 @@ class UserTransactionRepository implements IUserTransactionRepository
             'user_id' => auth()->user()->id,
             'request' => 'DEPOSIT',
             'status' => TransRequestStatusEnum::PENDING,
-            'details' => json_encode([]),
+            'details' => [
+                'narration' => data_get($attributes, 'narration')
+            ],
             'amount' => data_get($attributes, 'amount'),
         ]);
     }
@@ -38,7 +40,9 @@ class UserTransactionRepository implements IUserTransactionRepository
             'user_id' => auth()->user()->id,
             'request' => 'WITHDRAW',
             'status' => TransRequestStatusEnum::PENDING,
-            'details' => json_encode([]),
+            'details' => [
+                'narration' => data_get($attributes, 'narration')
+            ],
             'amount' => data_get($attributes, 'amount'),
         ]);
     }
