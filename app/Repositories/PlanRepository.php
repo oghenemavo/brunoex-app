@@ -13,6 +13,12 @@ class PlanRepository implements IPlanRepository
 
     public function createPlan(array $attributes)
     {
+        $options = [
+            's1' => 'assets/images/icons/plans-s1',
+            's2' => 'assets/images/icons/plans-s2',
+            's3' => 'assets/images/icons/plans-s3',
+        ];
+
         $meta = [
             'profit_type' => data_get($attributes, 'profit_type'),
             'profit' => data_get($attributes, 'profit'),
@@ -20,6 +26,8 @@ class PlanRepository implements IPlanRepository
             'max_deposit' => data_get($attributes, 'max_deposit'),
             'duration_unit' => data_get($attributes, 'duration_unit'),
             'duration' => data_get($attributes, 'duration'),
+            'media' => $options[data_get($attributes, 'media')] ?? '',
+            'recommended' => data_get($attributes, 'recommended'),
             'description' => data_get($attributes, 'description'),
         ];
 

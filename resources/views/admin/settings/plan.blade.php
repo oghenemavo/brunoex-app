@@ -16,6 +16,15 @@
         <option value="fixed">Fixed</option>
     </select>
 
+    <select name="media">
+        <option value="">None</option>
+        <option value="s1">S1</option>
+        <option value="s2">S2</option>
+        <option value="s3">S3</option>
+    </select>
+
+    <input type="checkbox" name="recommended" id="">
+
     <div class="form-group row">
         <label for="profit" class="col-md-4 col-form-label text-md-right">profit</label>
         <div class="col-md-6">
