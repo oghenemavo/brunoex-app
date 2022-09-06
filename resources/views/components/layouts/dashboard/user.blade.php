@@ -138,87 +138,6 @@
                                 </div><!-- .nk-sidebar-menu -->
 
 
-
-                                <div class="nk-sidebar-widget">
-                                    <div class="widget-title">
-                                        <h6 class="overline-title">Crypto Accounts <span>(4)</span></h6>
-                                        <a href="#" class="link">View All</a>
-                                    </div>
-                                    <ul class="wallet-list">
-                                        <li class="wallet-item">
-                                            <a href="#">
-                                                <div class="wallet-icon"><em class="icon ni ni-sign-kobo"></em></div>
-                                                <div class="wallet-text">
-                                                    <h6 class="wallet-name">NioWallet</h6>
-                                                    <span class="wallet-balance">30.959040 <span class="currency currency-nio">NIO</span></span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="wallet-item">
-                                            <a href="#">
-                                                <div class="wallet-icon"><em class="icon ni ni-sign-btc"></em></div>
-                                                <div class="wallet-text">
-                                                    <h6 class="wallet-name">Bitcoin Wallet</h6>
-                                                    <span class="wallet-balance">0.0495950 <span class="currency currency-btc">BTC</span></span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="wallet-item wallet-item-add">
-                                            <a href="#">
-                                                <div class="wallet-icon"><em class="icon ni ni-plus"></em></div>
-                                                <div class="wallet-text">
-                                                    <h6 class="wallet-name">Add another wallet</h6>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div><!-- .nk-sidebar-widget -->
-                                <div class="nk-sidebar-footer">
-                                    <ul class="nk-menu nk-menu-footer">
-                                        <li class="nk-menu-item">
-                                            <a href="#" class="nk-menu-link">
-                                                <span class="nk-menu-icon"><em class="icon ni ni-help-alt"></em></span>
-                                                <span class="nk-menu-text">Support</span>
-                                            </a>
-                                        </li>
-                                        <li class="nk-menu-item ms-auto">
-                                            <div class="dropup">
-                                                <a href="" class="nk-menu-link dropdown-indicator has-indicator" data-bs-toggle="dropdown" data-offset="0,10">
-                                                    <span class="nk-menu-icon"><em class="icon ni ni-globe"></em></span>
-                                                    <span class="nk-menu-text">English</span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
-                                                    <ul class="language-list">
-                                                        <li>
-                                                            <a href="#" class="language-item">
-                                                                <img src="./images/flags/english.png" alt="" class="language-flag">
-                                                                <span class="language-name">English</span>
-                                                            </a>
-                                                        </li>
-                                                        <!-- <li>
-                                                            <a href="#" class="language-item">
-                                                                <img src="./images/flags/spanish.png" alt="" class="language-flag">
-                                                                <span class="language-name">Español</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" class="language-item">
-                                                                <img src="./images/flags/french.png" alt="" class="language-flag">
-                                                                <span class="language-name">Français</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" class="language-item">
-                                                                <img src="./images/flags/turkey.png" alt="" class="language-flag">
-                                                                <span class="language-name">Türkçe</span>
-                                                            </a>
-                                                        </li> -->
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul><!-- .nk-footer-menu -->
-                                </div><!-- .nk-sidebar-footer -->
                             </div><!-- .nk-sidebar-content -->
                         </div><!-- .nk-sidebar-body -->
                     </div><!-- .nk-sidebar-element -->
@@ -442,41 +361,7 @@
                     <div class="nk-footer">
                         <div class="container-fluid">
                             <div class="nk-footer-wrap">
-                                <div class="nk-footer-copyright"> &copy; 2022 DashLite. Template by <a href="https://softnio.com" target="_blank">Softnio</a>
-                                </div>
-                                <div class="nk-footer-links">
-                                    <ul class="nav nav-sm">
-                                        <li class="nav-item dropup">
-                                            <a href="" class="dropdown-toggle dropdown-indicator has-indicator nav-link text-base" data-bs-toggle="dropdown" data-offset="0,10"><span>English</span></a>
-                                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
-                                                <ul class="language-list">
-                                                    <li>
-                                                        <a href="#" class="language-item">
-                                                            <span class="language-name">English</span>
-                                                        </a>
-                                                    </li>
-                                                    <!-- <li>
-                                                        <a href="#" class="language-item">
-                                                            <span class="language-name">Español</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="language-item">
-                                                            <span class="language-name">Français</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="language-item">
-                                                            <span class="language-name">Türkçe</span>
-                                                        </a>
-                                                    </li> -->
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a data-bs-toggle="modal" href="#region" class="nav-link"><em class="icon ni ni-globe"></em><span class="ms-1">Select Region</span></a>
-                                        </li>
-                                    </ul>
+                                <div class="nk-footer-copyright"> &copy; 2022 Brunoex.</a>
                                 </div>
                             </div>
                         </div>

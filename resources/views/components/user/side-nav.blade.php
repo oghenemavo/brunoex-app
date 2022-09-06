@@ -54,47 +54,9 @@
         </a>
     </li>
     <li class="nk-menu-item">
-        <a href="html/crypto/chats.html" class="nk-menu-link">
-            <span class="nk-menu-icon"><em class="icon ni ni-chat-circle"></em></span>
-            <span class="nk-menu-text">Chats</span>
-        </a>
-    </li>
-    <li class="nk-menu-item">
         <a href="html/crypto/profile.html" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
             <span class="nk-menu-text">My Profile</span>
-        </a>
-    </li>
-    <li class="nk-menu-item has-sub">
-        <a href="#" class="nk-menu-link nk-menu-toggle">
-            <span class="nk-menu-icon"><em class="icon ni ni-files"></em></span>
-            <span class="nk-menu-text">Additional Pages</span>
-        </a>
-        <ul class="nk-menu-sub">
-            <li class="nk-menu-item">
-                <a href="html/crypto/welcome.html" class="nk-menu-link"><span class="nk-menu-text">Welcome</span></a>
-            </li>
-            <li class="nk-menu-item">
-                <a href="html/crypto/kyc-application.html" class="nk-menu-link"><span class="nk-menu-text">KYC - Get Started</span></a>
-            </li>
-            <li class="nk-menu-item">
-                <a href="html/crypto/kyc-form.html" class="nk-menu-link"><span class="nk-menu-text">KYC - Application Form</span></a>
-            </li>
-        </ul><!-- .nk-menu-sub -->
-    </li><!-- .nk-menu-item -->
-    <li class="nk-menu-heading">
-        <h6 class="overline-title">Return to</h6>
-    </li>
-    <li class="nk-menu-item">
-        <a href="html/index.html" class="nk-menu-link">
-            <span class="nk-menu-icon"><em class="icon ni ni-dashlite"></em></span>
-            <span class="nk-menu-text">Main Dashboard</span>
-        </a>
-    </li>
-    <li class="nk-menu-item">
-        <a href="html/components.html" class="nk-menu-link">
-            <span class="nk-menu-icon"><em class="icon ni ni-layers"></em></span>
-            <span class="nk-menu-text">All Components</span>
         </a>
     </li>
 </ul><!-- .nk-menu -->
