@@ -118,11 +118,11 @@
                                             </li>
                                         </ul>
                                         <ul class="user-account-links">
-                                            <li><a href="#" class="link"><span>Withdraw Funds</span> <em class="icon ni ni-wallet-out"></em></a></li>
-                                            <li><a href="#" class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-in"></em></a></li>
+                                            <li><a href="{{ route('user.withdraw') }}" class="link"><span>Withdraw Funds</span> <em class="icon ni ni-wallet-out"></em></a></li>
+                                            <li><a href="{{ route('user.deposit') }}" class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-in"></em></a></li>
                                         </ul>
                                         <ul class="link-list">
-                                            <li><a href="html/crypto/profile.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                            <li><a href="{{ route('user.profile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                             <li><a href="html/crypto/profile-security.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                             <li><a href="html/crypto/profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                         </ul>
@@ -218,7 +218,7 @@
                                                     </div>
                                                     <div class="user-info d-none d-md-block">
                                                         <div class="user-status user-status-unverified">Unverified</div>
-                                                        <div class="user-name dropdown-indicator">{{ auth()->user()->name }}</div>
+                                                        <div class="user-name dropdown-indicator">{{ auth('web')->user()->name }}</div>
                                                     </div>
                                                 </div>
                                             </a>
@@ -229,20 +229,20 @@
                                                             <span>AB</span>
                                                         </div>
                                                         <div class="user-info">
-                                                            <span class="lead-text">{{ auth()->user()->name }}</span>
-                                                            <span class="sub-text">{{ auth()->user()->email }}</span>
+                                                            <span class="lead-text">{{ auth('web')->user()->name }}</span>
+                                                            <span class="sub-text">{{ auth('web')->user()->email }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown-inner user-account-info">
                                                     <h6 class="overline-title-alt">Nio Wallet Account</h6>
-                                                    <div class="user-balance">12.395769 <small class="currency currency-btc">BTC</small></div>
-                                                    <div class="user-balance-sub">Locked <span>0.344939 <span class="currency currency-btc">BTC</span></span></div>
-                                                    <a href="#" class="link"><span>Withdraw Funds</span> <em class="icon ni ni-wallet-out"></em></a>
+                                                    <div class="user-balance">{{ auth('web')->user()->wallet->balance }} <small class="currency currency-btc">BTC</small></div>
+                                                    <div class="user-balance-sub">Locked <span>{{ auth('web')->user()->wallet->ledger_balance }} <span class="currency currency-btc">BTC</span></span></div>
+                                                    <a href="{{ route('user.withdraw') }}" class="link"><span>Withdraw Funds</span> <em class="icon ni ni-wallet-out"></em></a>
                                                 </div>
                                                 <div class="dropdown-inner">
                                                     <ul class="link-list">
-                                                        <li><a href="html/crypto/profile.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                        <li><a href="{{ route('user.profile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                         <li><a href="html/crypto/profile-security.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                         <li><a href="html/crypto/profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                                         <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>

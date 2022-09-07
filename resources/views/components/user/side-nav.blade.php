@@ -36,7 +36,7 @@
         </a>
     </li>
     <li class="nk-menu-item">
-        <a href="html/crypto/wallets.html" class="nk-menu-link">
+        <a href="{{ route('user.wallet') }}" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
             <span class="nk-menu-text">Wallets</span>
         </a>

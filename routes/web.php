@@ -48,6 +48,11 @@ Route::name('user.')->group(function() {
         Route::get('logout', [AuthController::class, 'logout'])->name('logout');
         
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile', [DashboardController::class, 'profile'])->name('profile');
+        Route::get('profile/security', [DashboardController::class, 'security'])->name('security');
+        Route::put('change-password', [DashboardController::class, 'password'])->name('change.password');
+        Route::put('change-email', [DashboardController::class, 'email'])->name('change.email');
+
         Route::get('deposit', [TransactionController::class, 'deposit'])->name('deposit');
         Route::post('deposit/create', [TransactionController::class, 'makeDeposit'])->name('make.deposit');
         Route::get('withdraw', [TransactionController::class, 'withdraw'])->name('withdraw');
@@ -59,7 +64,7 @@ Route::name('user.')->group(function() {
         Route::get('plans', [InvestmentController::class, 'plans'])->name('plans');
         Route::get('invest', [InvestmentController::class, 'index'])->name('invest');
         Route::post('invest/create', [InvestmentController::class, 'invest'])->name('make.investment');
-        Route::get('wallet', [DashboardController::class, 'wallet'])->name('plans');
+        Route::get('wallet', [DashboardController::class, 'wallet'])->name('wallet');
     });
     
 });

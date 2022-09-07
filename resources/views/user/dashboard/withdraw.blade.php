@@ -93,10 +93,10 @@
                     console.log(errorThrown)
     
                     // console.log(XMLHttpRequest)
-                    // let errors = XMLHttpRequest.responseJSON.errors;
                     // console.log(errors)
+                    let errors = XMLHttpRequest.responseJSON.errors;
                     if (errors.hasOwnProperty('narration')) {
-                        $(`<span>${errors.narration[0]}</span>`).text().insertAfter('#narration')
+                        $(`<span>${errors.narration[0]}</span>`).insertAfter('#narration')
                     } 
             
                     $('#withdraw').find('button').attr('disabled', false);
