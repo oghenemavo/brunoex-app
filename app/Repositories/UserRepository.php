@@ -21,9 +21,18 @@ class UserRepository implements IUserRepository
 
             $user = $this->user->create([
                 'name' => data_get($attributes, 'name'),
-                // 'last_name' => data_get($attributes, 'last_name'),
-                // 'phone_number' => data_get($attributes, 'phone_number'),
-                // 'address' => data_get($attributes, 'address'),
+                'kyc' => [
+                    'phone' => '',
+                    'gender' => '',
+                    'dob' => '',
+                    'address' => '',
+                    'address_two' => '',
+                    'city' => '',
+                    'state' => '',
+                    'zip' => '',
+                    'country' => '',
+                    'nation' => '',
+                ],
                 'email' => data_get($attributes, 'email'),
                 'password' => Hash::make(data_get($attributes, 'password')),
             ]);

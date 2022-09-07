@@ -52,6 +52,8 @@ Route::name('user.')->group(function() {
         Route::get('profile/security', [DashboardController::class, 'security'])->name('security');
         Route::put('change-password', [DashboardController::class, 'password'])->name('change.password');
         Route::put('change-email', [DashboardController::class, 'email'])->name('change.email');
+        Route::put('kyc-profile', [DashboardController::class, 'kycProfile'])->name('kyc.profile');
+        Route::put('kyc-address', [DashboardController::class, 'kycAddress'])->name('kyc.address');
 
         Route::get('deposit', [TransactionController::class, 'deposit'])->name('deposit');
         Route::post('deposit/create', [TransactionController::class, 'makeDeposit'])->name('make.deposit');

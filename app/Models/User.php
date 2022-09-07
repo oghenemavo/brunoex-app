@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Notifications\ResetPassword;
 use App\Traits\Uuid;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,6 +39,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'kyc' => AsCollection::class
     ];
     
     public function sendPasswordResetNotification($token)

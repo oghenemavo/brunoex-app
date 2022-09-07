@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -18,7 +19,64 @@ class DashboardController extends Controller
     {
         $data = [];
         $data['user'] = auth('web')->user();
+
+        $client =  new Client();
+        $url = 'https://restcountries.com/v3.1/all?fields=name';
+
+        $response = $client->request('GET', $url, [
+            'verify' => false,
+        ]);
+
+        $data['countries'] = json_decode($response->getBody());
+
         return view('user.dashboard.profile', $data);
+    }
+    
+    public function kycProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|min:4|string',
+            'phone' => 'required|min:6|string',
+            'gender' => 'required',
+            'dob' => 'required',
+        ]);
+
+        $user = auth('web')->user();
+        $user->kyc->put('phone', $request->phone);
+        $user->kyc->put('gender', $request->gender);
+        $user->kyc->put('dob', $request->dob);
+
+        if ($user->save()) {
+            return response()->json(['status' => true, 'message' => 'Profile updated']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to update Profile']);
+    }
+    
+    public function kycAddress(Request $request)
+    {
+        $request->validate([
+            'address' => 'required|min:3|string',
+            'address_two' => 'nullable|min:3|string',
+            'city' => 'nullable|min:3|string',
+            'state' => 'required|min:3|string',
+            'zip' => 'nullable|min:3|string',
+            'country' => 'required|min:3|string',
+            'nation' => 'nullable|min:3|string',
+        ]);
+
+        $user = auth('web')->user();
+        $user->kyc->put('address', $request->address);
+        $user->kyc->put('address_two', $request->address_two);
+        $user->kyc->put('city', $request->city);
+        $user->kyc->put('state', $request->state);
+        $user->kyc->put('zip', $request->zip);
+        $user->kyc->put('country', $request->country);
+        $user->kyc->put('nation', $request->nation);
+
+        if ($user->save()) {
+            return response()->json(['status' => true, 'message' => 'Profile updated']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to update Profile']);
     }
 
     public function security()
