@@ -89,7 +89,7 @@
                             text: response.message,
                         })
                     }
-                    $('#invest').find('button').attr('disabled', true)
+                    $('#invest').find('button').attr('disabled', false)
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     console.log(XMLHttpRequest.status)

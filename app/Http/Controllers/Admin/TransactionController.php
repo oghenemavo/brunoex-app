@@ -24,8 +24,10 @@ class TransactionController extends Controller
     public function addBonus(BonusRequest $request)
     {
         $data = $request->validated();
-        $this->transactionRepository->bonus($data);
-        return redirect()->route('admin.bonus')->with('success', 'Bonus Initiated Successfully');
+        if ($this->transactionRepository->bonus($data)) {
+            return response()->json(['status' => true, 'message' => 'Bonus Initiated Successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to Initiated Bonus']);
     }
 
     public function penalty()
@@ -36,8 +38,10 @@ class TransactionController extends Controller
     public function addPenalty(BonusRequest $request)
     {
         $data = $request->validated();
-        $this->transactionRepository->penalty($data);
-        return redirect()->route('user.penalty')->with('success', 'Penalty Initiated Successfully');
+        if ($this->transactionRepository->penalty($data)) {
+            return response()->json(['status' => true, 'message' => 'Penalty Initiated Successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to Initiated Penalty']);
     }
 
     public function deposit()
@@ -49,8 +53,10 @@ class TransactionController extends Controller
     {
         $data = $request->validated();
 
-        $this->transactionRepository->validateDeposit($data, $deposit);
-        return redirect()->route('admin.deposit')->with('success', 'Deposit Initiated Successfully');
+        if ($this->transactionRepository->validateDeposit($data, $deposit)) {
+            return response()->json(['status' => true, 'message' => 'Deposit Initiated Successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to Initiated Deposit']);
     }
 
     public function withdraw()
@@ -62,7 +68,9 @@ class TransactionController extends Controller
     {
         $data = $request->validated();
 
-        $this->transactionRepository->validateWithdraw($data, $withdraw);
-        return redirect()->route('admin.withdraw')->with('success', 'Withdraw Initiated Successfully');
+        if ($this->transactionRepository->validateWithdraw($data, $withdraw)) {
+            return response()->json(['status' => true, 'message' => 'Withdraw Initiated Successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to Initiated Withdraw']);
     }
 }

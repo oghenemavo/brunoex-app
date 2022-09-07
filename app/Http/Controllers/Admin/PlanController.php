@@ -29,7 +29,10 @@ class PlanController extends Controller
     {
         $data = $request->validated();
         $this->planRepository->createPlan($data);
-        return redirect()->route('admin.plans.index')->with('success', 'Plan Created Successfully');
+        if ($this->planRepository->createPlan($data)) {
+            return response()->json(['status' => true, 'message' => 'Plan Created Successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to Create Plan']);
     }
 
     /**
@@ -62,8 +65,10 @@ class PlanController extends Controller
     public function update(PlanRequest $request, Plan $plan)
     {
         $data = $request->validated();
-        $this->planRepository->updatePlan($data, $plan);
-        return redirect()->route('admin.plans.index')->with('success', 'Plan updated Successfully');
+        if ($this->planRepository->updatePlan($data, $plan)) {
+            return response()->json(['status' => true, 'message' => 'Plan updated Successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to updated Plan']);
     }
 
     /**
@@ -73,7 +78,9 @@ class PlanController extends Controller
      */
     public function destroy(Plan $plan)
     {
-        $this->planRepository->deletePlan($plan);
-        return redirect()->route('admin.plans.index')->with('success', 'Plan deleted Successfully');
+        if ($this->planRepository->deletePlan($plan)) {
+            return response()->json(['status' => true, 'message' => 'Plan deleted Successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'Unable to delete Plan']);
     }
 }

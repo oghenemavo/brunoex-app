@@ -23,7 +23,7 @@ class TransactionRepository implements ITransactionRepository
 
     public function bonus(array $attributes)
     {
-        DB::transaction(function() use($attributes) {
+        return DB::transaction(function() use($attributes) {
             $amount = data_get($attributes, 'amount');
             
             $recipient = User::where('uuid', data_get($attributes, 'uuid'))->first();
@@ -56,7 +56,7 @@ class TransactionRepository implements ITransactionRepository
 
     public function penalty(array $attributes)
     {
-        DB::transaction(function() use($attributes) {
+        return DB::transaction(function() use($attributes) {
             $amount = data_get($attributes, 'amount');
             
             $recipient = User::where('uuid', data_get($attributes, 'uuid'))->first();

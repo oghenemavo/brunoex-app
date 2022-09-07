@@ -96,7 +96,7 @@
                             text: response.message,
                         })
                     }
-                    $('#transfer').find('button').attr('disabled', true)
+                    $('#transfer').find('button').attr('disabled', false)
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     console.log(XMLHttpRequest.status)
