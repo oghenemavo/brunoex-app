@@ -30,12 +30,6 @@
         </ul><!-- .nk-menu-sub -->
     </li>
     <li class="nk-menu-item">
-        <a href="html/crypto/accounts.html" class="nk-menu-link">
-            <span class="nk-menu-icon"><em class="icon ni ni-user-c"></em></span>
-            <span class="nk-menu-text">My Account</span>
-        </a>
-    </li>
-    <li class="nk-menu-item">
         <a href="{{ route('user.wallet') }}" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
             <span class="nk-menu-text">Wallets</span>
@@ -47,14 +41,22 @@
             <span class="nk-menu-text">Buy / Sell</span>
         </a>
     </li>
-    <li class="nk-menu-item">
-        <a href="html/crypto/order-history.html" class="nk-menu-link">
+    <li class="nk-menu-item has-sub">
+        <a href="#" class="nk-menu-link nk-menu-toggle" data-bs-original-title="" title="">
             <span class="nk-menu-icon"><em class="icon ni ni-repeat"></em></span>
-            <span class="nk-menu-text">Orders</span>
+            <span class="nk-menu-text">Transactions</span>
         </a>
+        <ul class="nk-menu-sub" style="display: none;">
+            <li class="nk-menu-item">
+                <a href="{{ route('user.invest') }}" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Transactions</span></a>
+            </li>
+            <li class="nk-menu-item">
+                <a href="html/invoice-details.html" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Transactions Requests</span></a>
+            </li>
+        </ul><!-- .nk-menu-sub -->
     </li>
     <li class="nk-menu-item">
-        <a href="html/crypto/profile.html" class="nk-menu-link">
+        <a href="{{ route('user.profile') }}" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
             <span class="nk-menu-text">My Profile</span>
         </a>
