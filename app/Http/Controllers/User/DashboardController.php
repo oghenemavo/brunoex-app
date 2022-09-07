@@ -42,6 +42,7 @@ class DashboardController extends Controller
         ]);
 
         $user = auth('web')->user();
+        $user->name = $request->name;
         $user->kyc->put('phone', $request->phone);
         $user->kyc->put('gender', $request->gender);
         $user->kyc->put('dob', $request->dob);

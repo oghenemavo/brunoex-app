@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="js">
-
     <head>
         <base href="{{ url()->to('/') }}">
         <meta charset="utf-8">
@@ -8,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Crypto Exchange, Loans and Investment.">
         <!-- Fav Icon  -->
-        <link rel="shortcut icon" href="./images/favicon.png">
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
         <!-- Page Title  -->
         <title>Dashboard | Brunoex Dashboard</title>
         <!-- StyleSheets  -->

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
@@ -88,9 +89,14 @@ Route::prefix('admin')->name('admin.')->group(function() {
     
     Route::middleware('auth:admin')->group(function () {
         Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-        Route::get('dashboard', function() {
-            echo 'admin dashboard';
-        })->name('dashboard');
+        Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile', [AdminDashboardController::class, 'profile'])->name('profile');
+        Route::put('kyc-profile', [AdminDashboardController::class, 'kycProfile'])->name('kyc.profile');
+        Route::get('profile/settings', [AdminDashboardController::class, 'settings'])->name('profile.settings');
+
+        Route::put('change-password', [AdminDashboardController::class, 'password'])->name('change.password');
+        Route::put('change-email', [AdminDashboardController::class, 'email'])->name('change.email');
+        
 
         Route::get('bonus', [AdminTransactionController::class, 'bonus'])->name('bonus');
         Route::post('bonus/create', [AdminTransactionController::class, 'addBonus'])->name('add.bonus');
