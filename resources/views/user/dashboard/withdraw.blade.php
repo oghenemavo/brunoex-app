@@ -48,7 +48,8 @@
     
     @push('scripts')
     <script src="{{ asset('assets/js/jquery.form.js') }}"></script>
-        <script>
+    <script>
+        $(function() {
             $('#withdraw').validate({
                 rules: {
                     amount: {
@@ -60,6 +61,10 @@
                 },
                 submitHandler: function(form) {
                     $(form).find('button').attr('disabled', true)
+
+                    // clear error ui
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('.invalid-feedback').remove();
                     
                     if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
                         Swal.fire({
@@ -107,8 +112,14 @@
                     // console.log(XMLHttpRequest)
                     // console.log(errors)
                     let errors = XMLHttpRequest.responseJSON.errors;
+                    if (errors.hasOwnProperty('amount')) {
+                        const amount = $('#amount').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.amount[0]}</span>`).insertAfter(amount);
+                    } 
+
                     if (errors.hasOwnProperty('narration')) {
-                        $(`<span>${errors.narration[0]}</span>`).insertAfter('#narration')
+                        const narration = $('#narration').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.narration[0]}</span>`).insertAfter(narration);
                     } 
             
                     $('#withdraw').find('button').attr('disabled', false);
@@ -124,6 +135,8 @@
                     });
                 }
             };
-        </script>
+
+        });
+    </script>
     @endpush
 </x-layouts.dashboard.user>

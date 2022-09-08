@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Investment;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +14,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('user.dashboard.index');
+        $data = [];
+        $data['user'] = auth('web')->user();
+        // $data['orders'] = Investment::query()->where('status', 'PENDING')->sum('amount');
+        // $data['profit_7days'] = Investment::query()->where('status', 'PENDING')
+        // ->whereDate('due_at', Carbon::now()->subDays(7))->sum('profit');
+        return view('user.dashboard.index', $data);
     }
 
     public function investments()

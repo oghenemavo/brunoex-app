@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TransferRequest extends FormRequest
 {
@@ -24,7 +25,12 @@ class TransferRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'email' => [
+                'required',
+                'email',
+                'exists:users,email',
+                Rule::notIn(request()->user()->email)
+            ],
             'narration' => 'nullable|string|max:20',
             'amount' => 'required|numeric|min:0.1'
         ];

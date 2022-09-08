@@ -265,164 +265,184 @@
     @push('scripts')
     <script src="{{ asset('assets/js/jquery.form.js') }}"></script>
     <script>
-        $('#kyc-profile').validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 5,
+        $(function() {
+            $('#kyc-profile').validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 5,
+                    },
+                    phone: {
+                        required: true,
+                        minlength: 5,
+                    },
+                    dob: {
+                        required: true,
+                    },
+                    gender: {
+                        required: true,
+                    },
                 },
-                phone: {
-                    required: true,
-                    minlength: 5,
-                },
-                dob: {
-                    required: true,
-                },
-                gender: {
-                    required: true,
-                },
-            },
-            submitHandler: function(form) {
-                $('span.invalid-feedack').remove();
-                $(form).find('button').attr('disabled', true);
-                $(form).ajaxSubmit(ajaxProfileOptions);
-            }
-        });
+                submitHandler: function(form) {
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('span.invalid-feedack').remove();
 
-        const ajaxProfileOptions = {
-            type: 'PUT',
-            url: $(this).prop('action'),
-            data: $(this).serialize(),
-            dataType: 'json',
-            clearForm: null,
-            success: function(response) {
-                if (response.hasOwnProperty('status') && response.status) {
+                    $(form).find('button').attr('disabled', true);
+                    $(form).ajaxSubmit(ajaxProfileOptions);
+                }
+            });
+    
+            const ajaxProfileOptions = {
+                type: 'PUT',
+                url: $(this).prop('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                clearForm: null,
+                success: function(response) {
+                    if (response.hasOwnProperty('status') && response.status) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+    
+                        $('#profile-edit').modal('hide');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message,
+                        })
+                    }
+    
+                    $('#kyc-profile').find('button').attr('disabled', false)
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status)
+                    console.log(XMLHttpRequest.statusText)
+                    console.log(errorThrown)
+    
+                    let errors = XMLHttpRequest.responseJSON.errors;
+                    if (errors.hasOwnProperty('name')) {
+                        const name = $('#name').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.name[0]}</span>`).insertAfter(name);
+                    } 
+                        
+                    if (errors.hasOwnProperty('phone')) {
+                        const phone = $('#phone').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.phone[0]}</span>`).insertAfter(phone);
+                    } 
+                        
+                    if (errors.hasOwnProperty('dob')) {
+                        const dob = $('#dob').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.dob[0]}</span>`).insertAfter(dob);
+                    } 
+                        
+                    if (errors.hasOwnProperty('gender')) {
+                        const gender = $('#gender').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.gender[0]}</span>`).insertAfter(gender);
+                    } 
+            
+                    $('#kyc-profile').find('button').attr('disabled', false);
+            
+                    // display toast alert
                     Swal.fire({
                         position: 'top-end',
-                        icon: 'success',
-                        title: response.message,
+                        icon: 'error',
+                        title: 'Unable to process request now.',
                         showConfirmButton: false,
                         timer: 2000
                     });
-
-                    $('#profile-edit').modal('hide');
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: response.message,
-                    })
                 }
-
-                $('#kyc-profile').find('button').attr('disabled', false)
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log(XMLHttpRequest.status)
-                console.log(XMLHttpRequest.statusText)
-                console.log(errorThrown)
-
-                let errors = XMLHttpRequest.responseJSON.errors;
-                // if (errors.hasOwnProperty('email')) {
-                //     $(`<span class="invalid-feedback" role="alert">${errors.email[0]}</span>`).insertAfter('#email')
-                // }
-                    
-                // if (errors.hasOwnProperty('current')) {
-                //     $(`<span class="invalid-feedback" role="alert">${errors.current[0]}</span>`).insertAfter('#current')
-                // } 
-        
-                $('#kyc-profile').find('button').attr('disabled', false);
-        
-                // display toast alert
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'Unable to process request now.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            }
-        };
-
-        $('#kyc-address').validate({
-            rules: {
-                address: {
-                    required: true,
-                    minlength: 6,
+            };
+    
+            $('#kyc-address').validate({
+                rules: {
+                    address: {
+                        required: true,
+                        minlength: 6,
+                    },
+                    country: {
+                        required: true,
+                    },
+                    state: {
+                        required: true,
+                        minlength: 3,
+                    },
                 },
-                country: {
-                    required: true,
-                },
-                state: {
-                    required: true,
-                    minlength: 3,
-                },
-            },
-            submitHandler: function(form) {
-                $('span.invalid-feedack').remove();
-                $(form).find('button').attr('disabled', true);
-                $(form).ajaxSubmit(ajaxOptions);
-            }
-        });
+                submitHandler: function(form) {
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('span.invalid-feedack').remove();
 
-        const ajaxOptions = {
-            type: 'PUT',
-            url: $(this).prop('action'),
-            data: $(this).serialize(),
-            dataType: 'json',
-            clearForm: null,
-            success: function(response) {
-                if (response.hasOwnProperty('status') && response.status) {
+                    $(form).find('button').attr('disabled', true);
+                    $(form).ajaxSubmit(ajaxOptions);
+                }
+            });
+    
+            const ajaxOptions = {
+                type: 'PUT',
+                url: $(this).prop('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                clearForm: null,
+                success: function(response) {
+                    if (response.hasOwnProperty('status') && response.status) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+    
+                        $('#change-password-modal').modal('hide');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message,
+                        })
+                    }
+    
+                    $('#kyc-address').find('button').attr('disabled', false)
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status)
+                    console.log(XMLHttpRequest.statusText)
+                    console.log(errorThrown)
+    
+                    let errors = XMLHttpRequest.responseJSON.errors;
+                    console.log(errors)
+                    if (errors.hasOwnProperty('address')) {
+                        const address = $('#address').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.address[0]}</span>`).insertAfter(address);
+                    }  
+                    if (errors.hasOwnProperty('country')) {
+                        const country = $('#country').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.country[0]}</span>`).insertAfter(country);
+                    }  
+                    if (errors.hasOwnProperty('state')) {
+                        const state = $('#state').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.state[0]}</span>`).insertAfter(state);
+                    }  
+            
+                    $('#kyc-address').find('button').attr('disabled', false);
+            
+                    // display toast alert
+                    // display toast alert
                     Swal.fire({
                         position: 'top-end',
-                        icon: 'success',
-                        title: response.message,
+                        icon: 'error',
+                        title: 'Unable to process request now.',
                         showConfirmButton: false,
                         timer: 2000
                     });
-
-                    $('#change-password-modal').modal('hide');
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: response.message,
-                    })
                 }
+            };
 
-                $('#kyc-address').find('button').attr('disabled', false)
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log(XMLHttpRequest.status)
-                console.log(XMLHttpRequest.statusText)
-                console.log(errorThrown)
-
-                let errors = XMLHttpRequest.responseJSON.errors;
-                console.log(errors)
-                // if (errors.hasOwnProperty('password')) {
-                //     $(`<span class="invalid-feedback" role="alert">${errors.password[0]}</span>`).insertAfter('#password')
-                // }
-                    
-                // if (errors.hasOwnProperty('current')) {
-                //     $(`<span class="invalid-feedback" role="alert">${errors.current[0]}</span>`).insertAfter('#current')
-                // } 
-
-                // if (errors.hasOwnProperty('password_confirmation')) {
-                //     $(`<span class="invalid-feedback" role="alert">${errors.password_confirmation[0]}</span>`).insertAfter('#password_confirmation')
-                // } 
-        
-                $('#kyc-address').find('button').attr('disabled', false);
-        
-                // display toast alert
-                // display toast alert
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'Unable to process request now.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            }
-        };
+        });
     </script>
     @endpush
 </x-layouts.dashboard.user>

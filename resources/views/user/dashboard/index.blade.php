@@ -5,14 +5,14 @@
         </div>
         <div class="nk-block-between-md g-4">
             <div class="nk-block-head-content">
-                <h2 class="nk-block-title fw-normal">{{ auth()->user()->name }}</h2>
+                <h2 class="nk-block-title fw-normal">{{ $user->name }}</h2>
                 <div class="nk-block-des">
                     <p>At a glance summary of your account. Have fun!</p>
                 </div>
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
                 <ul class="nk-block-tools gx-3">
-                    <li><a href="#" class="btn btn-primary"><span>Deposit</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
+                    <li><a href="{{ route('user.deposit') }}" class="btn btn-primary"><span>Deposit</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
                     <li><a href="#" class="btn btn-white btn-light"><span>Buy / Sell</span> <em class="icon ni ni-arrow-long-right d-none d-sm-inline-block"></em></a></li>
                     
                 </ul>

@@ -56,7 +56,8 @@
     
     @push('scripts')
     <script src="{{ asset('assets/js/jquery.form.js') }}"></script>
-        <script>
+    <script>
+        $(function() {
             $('#transfer').validate({
                 rules: {
                     amount: {
@@ -72,6 +73,10 @@
                 },
                 submitHandler: function(form) {
                     $(form).find('button').attr('disabled', true)
+
+                    // clear error ui
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('.invalid-feedback').remove();
                     
                     if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
                         Swal.fire({
@@ -117,11 +122,20 @@
                     console.log(errorThrown)
     
                     // console.log(XMLHttpRequest)
-                    // let errors = XMLHttpRequest.responseJSON.errors;
+                    let errors = XMLHttpRequest.responseJSON.errors;
                     // console.log(errors)
-                    // if (errors.hasOwnProperty('product_name')) {
-                    //     $('div[data-error="product_name"]').text(errors.product_name[0])
-                    // } 
+                    if (errors.hasOwnProperty('email')) {
+                        const email = $('#email').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.email[0]}</span>`).insertAfter(email);
+                    } 
+                    if (errors.hasOwnProperty('narration')) {
+                        const narration = $('#narration').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.narration[0]}</span>`).insertAfter(narration);
+                    } 
+                    if (errors.hasOwnProperty('amount')) {
+                        const amount = $('#amount').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.amount[0]}</span>`).insertAfter(amount);
+                    } 
             
                     $('#transfer').find('button').attr('disabled', false);
             
@@ -136,6 +150,7 @@
                     });
                 }
             };
-        </script>
+        });
+    </script>
     @endpush
 </x-layouts.dashboard.user>

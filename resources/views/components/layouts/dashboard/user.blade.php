@@ -1,3 +1,6 @@
+@php
+    $user = auth('web')->user();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="js">
     <head>
@@ -40,10 +43,9 @@
                                     <div class="user-account-info between-center">
                                         <div class="user-account-main">
                                             <h6 class="overline-title-alt">Available Balance</h6>
-                                            <div class="user-balance">2.014095 <small class="currency currency-btc">BTC</small></div>
-                                            <div class="user-balance-alt">18,934.84 <span class="currency currency-btc">BTC</span></div>
+                                            <div class="user-balance">@money($user->wallet->balance) <small class="currency currency-btc">USD</small></div>
+                                            <div class="user-balance-alt">@money($user->wallet->ledger_balance) <span class="currency currency-btc">USD</span></div>
                                         </div>
-                                        <a href="#" class="btn btn-white btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
                                     </div>
                                     <ul class="user-account-data gy-1">
                                         <li>
@@ -51,16 +53,16 @@
                                                 <span class="sub-text">Profits (7d)</span>
                                             </div>
                                             <div class="user-account-value">
-                                                <span class="lead-text">+ 0.0526 <span class="currency currency-btc">BTC</span></span>
-                                                <span class="text-success ms-2">3.1% <em class="icon ni ni-arrow-long-up"></em></span>
+                                                <span class="lead-text">+ @money(profit7days()) <span class="currency currency-btc">USD</span></span>
+                                                <span class="text-success ms-2">{{ percentprofit7days() }}% </span>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="user-account-label">
-                                                <span class="sub-text">Deposit in orders</span>
+                                                <span class="sub-text">Investment in orders</span>
                                             </div>
                                             <div class="user-account-value">
-                                                <span class="sub-text">0.005400 <span class="currency currency-btc">BTC</span></span>
+                                                <span class="sub-text">@money(orders()) <span class="currency currency-btc">USD</span></span>
                                             </div>
                                         </li>
                                     </ul>
@@ -76,11 +78,11 @@
                                         <div class="user-card-wrap">
                                             <div class="user-card">
                                                 <div class="user-avatar">
-                                                    <span>AB</span>
+                                                    <span>{{ strtoupper(substr($user->name, 0,2)) }}</span>
                                                 </div>
                                                 <div class="user-info">
-                                                    <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                    <span class="sub-text">info@softnio.com</span>
+                                                    <span class="lead-text">{{ $user->name }}</span>
+                                                    <span class="sub-text">{{ $user->email }}</span>
                                                 </div>
                                                 <div class="user-action">
                                                     <em class="icon ni ni-chevron-down"></em>
@@ -92,8 +94,8 @@
                                         <div class="user-account-info between-center">
                                             <div class="user-account-main">
                                                 <h6 class="overline-title-alt">Available Balance</h6>
-                                                <div class="user-balance">2.014095 <small class="currency currency-usd">USD</small></div>
-                                                <div class="user-balance-alt">18,934.84 <span class="currency currency-usd">USD</span></div>
+                                                <div class="user-balance">@money($user->wallet->balance)  <small class="currency currency-usd">USD</small></div>
+                                                <div class="user-balance-alt">@money($user->wallet->ledger_balance)  <span class="currency currency-usd">USD</span></div>
                                             </div>
                                         </div>
                                         <ul class="user-account-data">
@@ -108,7 +110,7 @@
                                             </li>
                                             <li>
                                                 <div class="user-account-label">
-                                                    <span class="sub-text">Deposit in orders</span>
+                                                    <span class="sub-text">Investments in orders</span>
                                                 </div>
                                                 <div class="user-account-value">
                                                     <span class="sub-text text-base">0.005400 <span class="currency currency-usd">USD</span></span>
@@ -121,8 +123,7 @@
                                         </ul>
                                         <ul class="link-list">
                                             <li><a href="{{ route('user.profile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                            <li><a href="{{ route('user.profile.settings') }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                            <!-- <li><a href="html/crypto/profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
+                                            <li><a href="{{ route('user.settings') }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                         </ul>
                                         <ul class="link-list">
                                             <li><a href="{{ route('user.logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>

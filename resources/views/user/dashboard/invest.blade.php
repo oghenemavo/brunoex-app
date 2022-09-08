@@ -67,6 +67,10 @@
                 submitHandler: function(form) {
                     $(form).find('button').attr('disabled', true)
 
+                    // clear error ui
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('.invalid-feedback').remove();
+
                     if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
                         Swal.fire({
                             icon: 'error',
@@ -112,11 +116,16 @@
                     console.log(errorThrown)
     
                     // console.log(XMLHttpRequest)
-                    // let errors = XMLHttpRequest.responseJSON.errors;
+                    let errors = XMLHttpRequest.responseJSON.errors;
                     // console.log(errors)
-                    // if (errors.hasOwnProperty('product_name')) {
-                    //     $('div[data-error="product_name"]').text(errors.product_name[0])
-                    // } 
+                    if (errors.hasOwnProperty('plan')) {
+                        const plan = $('#plan').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.plan[0]}</span>`).insertAfter(plan);
+                    } 
+                    if (errors.hasOwnProperty('amount')) {
+                        const amount = $('#amount').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.amount[0]}</span>`).insertAfter(amount);
+                    } 
             
                     $('#invest').find('button').attr('disabled', false);
             

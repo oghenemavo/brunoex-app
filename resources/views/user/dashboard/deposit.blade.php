@@ -47,7 +47,8 @@
     
     @push('scripts')
     <script src="{{ asset('assets/js/jquery.form.js') }}"></script>
-        <script>
+    <script>
+        $(function() {
             $('#deposit').validate({
                 rules: {
                     amount: {
@@ -112,6 +113,8 @@
                     });
                 }
             };
-        </script>
+
+        });
+    </script>
     @endpush
 </x-layouts.dashboard.user>

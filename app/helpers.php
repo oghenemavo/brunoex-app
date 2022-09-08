@@ -2,9 +2,45 @@
 
 use App\Enums\DurationUnitEnum;
 use App\Enums\ProfitTypeEnum;
+use App\Models\Investment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+
+if (! function_exists('orders')) {
+    function orders()
+    {
+        return Investment::query()->where('status', 'PENDING')->sum('amount');
+    }
+}
+
+if (! function_exists('profit7days')) {
+    function profit7days()
+    {
+        return Investment::query()->where('status', 'COMPLETED')
+        ->whereDate('due_at', Carbon::now()->subDays(7))->sum('profit');
+    }
+}
+
+if (! function_exists('percentprofit7days')) {
+    function percentprofit7days()
+    {
+        $days7 = Investment::query()->where('status', 'COMPLETED')
+        ->whereDate('due_at', Carbon::now()->subDays(7))->sum('profit');
+
+        $days14 = Investment::query()->where('status', 'COMPLETED')
+        ->whereDate('due_at', Carbon::now()->subDays(14))->sum('profit');
+
+        $p = 0;
+        if ($days14 > 0) {
+            $p = number_format((($days7-$days14/$days14) * 100), 2,'.');
+        } else {
+            $p = $days7-$days14;
+        }
+
+        return $p;
+    }
+}
 
 if (! function_exists('profit')) {
     function profit($amount, $plan)
