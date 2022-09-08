@@ -163,7 +163,7 @@
     <div class="modal fade" role="dialog" id="change-password-modal">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
-                <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
                 <div class="modal-body modal-body-md">
                     <h5 class="title">Change Password</h5>
 
@@ -208,7 +208,7 @@
     <div class="modal fade" role="dialog" id="change-email-modal">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
-                <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
                 <div class="modal-body modal-body-md">
                     <h5 class="title">Change Email</h5>
 
@@ -248,158 +248,165 @@
     @push('scripts')
     <script src="{{ asset('assets/js/jquery.form.js') }}"></script>
     <script>
-        $('#change-email-form').validate({
-            rules: {
-                current: {
-                    required: true,
-                    minlength: 6,
+        $(function() {
+            $('#change-email-form').validate({
+                rules: {
+                    current: {
+                        required: true,
+                        minlength: 6,
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
                 },
-                email: {
-                    required: true,
-                    email: true,
-                },
-            },
-            submitHandler: function(form) {
-                $('span.invalid-feedack').remove();
-                $(form).find('button').attr('disabled', true);
-                $(form).ajaxSubmit(ajaxEmailOptions);
-            }
-        });
+                submitHandler: function(form) {
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('span.invalid-feedack').remove();
 
-        const ajaxEmailOptions = {
-            type: 'PUT',
-            url: $(this).prop('action'),
-            data: $(this).serialize(),
-            dataType: 'json',
-            clearForm: true,
-            success: function(response) {
-                if (response.hasOwnProperty('status') && response.status) {
+                    $(form).find('button').attr('disabled', true);
+                    $(form).ajaxSubmit(ajaxEmailOptions);
+                }
+            });
+    
+            const ajaxEmailOptions = {
+                type: 'PUT',
+                url: $(this).prop('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                clearForm: true,
+                success: function(response) {
+                    if (response.hasOwnProperty('status') && response.status) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+    
+                        $('#change-email-modal').modal('hide');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message,
+                        })
+                    }
+    
+                    $('#change-email-form').find('button').attr('disabled', false)
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status)
+                    console.log(XMLHttpRequest.statusText)
+                    console.log(errorThrown)
+    
+                    let errors = XMLHttpRequest.responseJSON.errors;
+                    
+                    if (errors.hasOwnProperty('email')) {
+                        const email = $('#email').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.email[0]}</span>`).insertAfter(email);
+                    }
+                    
+                    if (errors.hasOwnProperty('current')) {
+                        const current = $('#current').addClass('is-invalid');
+                        $(`<span class="invalid-feedback" role="alert">${errors.current[0]}</span>`).insertAfter(current);
+                    }
+            
+                    $('#change-email-form').find('button').attr('disabled', false);
+            
+                    // display toast alert
                     Swal.fire({
                         position: 'top-end',
-                        icon: 'success',
-                        title: response.message,
+                        icon: 'error',
+                        title: 'Unable to process request now.',
                         showConfirmButton: false,
                         timer: 2000
                     });
-
-                    $('#change-email-modal').modal('hide');
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: response.message,
-                    })
                 }
-
-                $('#change-email-form').find('button').attr('disabled', false)
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log(XMLHttpRequest.status)
-                console.log(XMLHttpRequest.statusText)
-                console.log(errorThrown)
-
-                let errors = XMLHttpRequest.responseJSON.errors;
-                if (errors.hasOwnProperty('email')) {
-                    $(`<span class="invalid-feedback" role="alert">${errors.email[0]}</span>`).insertAfter('#email')
+            };
+    
+            $('#change-password-form').validate({
+                rules: {
+                    current: {
+                        required: true,
+                        minlength: 6,
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6,
+                    },
+                    password_confirmation: {
+                        required: true,
+                        equalTo: "#password"
+                    },
+                },
+                submitHandler: function(form) {
+                    $('span.invalid-feedack').remove();
+                    $(form).find('button').attr('disabled', true);
+                    $(form).ajaxSubmit(ajaxOptions);
                 }
-                    
-                if (errors.hasOwnProperty('current')) {
-                    $(`<span class="invalid-feedback" role="alert">${errors.current[0]}</span>`).insertAfter('#current')
-                } 
-        
-                $('#change-email-form').find('button').attr('disabled', false);
-        
-                // display toast alert
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'Unable to process request now.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            }
-        };
-
-        $('#change-password-form').validate({
-            rules: {
-                current: {
-                    required: true,
-                    minlength: 6,
+            });
+    
+            const ajaxOptions = {
+                type: 'PUT',
+                url: $(this).prop('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                clearForm: true,
+                success: function(response) {
+                    if (response.hasOwnProperty('status') && response.status) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+    
+                        $('#change-password-modal').modal('hide');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message,
+                        })
+                    }
+    
+                    $('#change-password-form').find('button').attr('disabled', false)
                 },
-                password: {
-                    required: true,
-                    minlength: 6,
-                },
-                password_confirmation: {
-                    required: true,
-                    equalTo: "#password"
-                },
-            },
-            submitHandler: function(form) {
-                $('span.invalid-feedack').remove();
-                $(form).find('button').attr('disabled', true);
-                $(form).ajaxSubmit(ajaxOptions);
-            }
-        });
-
-        const ajaxOptions = {
-            type: 'PUT',
-            url: $(this).prop('action'),
-            data: $(this).serialize(),
-            dataType: 'json',
-            clearForm: true,
-            success: function(response) {
-                if (response.hasOwnProperty('status') && response.status) {
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status)
+                    console.log(XMLHttpRequest.statusText)
+                    console.log(errorThrown)
+    
+                    let errors = XMLHttpRequest.responseJSON.errors;
+                    if (errors.hasOwnProperty('password')) {
+                        $(`<span class="invalid-feedback" role="alert">${errors.password[0]}</span>`).insertAfter('#password')
+                    }
+                        
+                    if (errors.hasOwnProperty('current')) {
+                        $(`<span class="invalid-feedback" role="alert">${errors.current[0]}</span>`).insertAfter('#current')
+                    } 
+    
+                    if (errors.hasOwnProperty('password_confirmation')) {
+                        $(`<span class="invalid-feedback" role="alert">${errors.password_confirmation[0]}</span>`).insertAfter('#password_confirmation')
+                    } 
+            
+                    $('#change-password-form').find('button').attr('disabled', false);
+            
+                    // display toast alert
+                    // display toast alert
                     Swal.fire({
                         position: 'top-end',
-                        icon: 'success',
-                        title: response.message,
+                        icon: 'error',
+                        title: 'Unable to process request now.',
                         showConfirmButton: false,
                         timer: 2000
                     });
-
-                    $('#change-password-modal').modal('hide');
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: response.message,
-                    })
                 }
-
-                $('#change-password-form').find('button').attr('disabled', false)
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log(XMLHttpRequest.status)
-                console.log(XMLHttpRequest.statusText)
-                console.log(errorThrown)
-
-                let errors = XMLHttpRequest.responseJSON.errors;
-                if (errors.hasOwnProperty('password')) {
-                    $(`<span class="invalid-feedback" role="alert">${errors.password[0]}</span>`).insertAfter('#password')
-                }
-                    
-                if (errors.hasOwnProperty('current')) {
-                    $(`<span class="invalid-feedback" role="alert">${errors.current[0]}</span>`).insertAfter('#current')
-                } 
-
-                if (errors.hasOwnProperty('password_confirmation')) {
-                    $(`<span class="invalid-feedback" role="alert">${errors.password_confirmation[0]}</span>`).insertAfter('#password_confirmation')
-                } 
-        
-                $('#change-password-form').find('button').attr('disabled', false);
-        
-                // display toast alert
-                // display toast alert
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'Unable to process request now.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            }
-        };
+            };
+        });
     </script>
     @endpush
 </x-layouts.dashboard.user>
