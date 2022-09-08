@@ -19,6 +19,7 @@ class InvestmentController extends Controller
     {
         $data = [];
         $data['plans'] = Plan::query()->where('status', 'active')->get();
+        $data['balance'] = auth('web')->user()->wallet->balance;
         return view('user.dashboard.invest', $data);
     }
     

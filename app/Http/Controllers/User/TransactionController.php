@@ -32,7 +32,9 @@ class TransactionController extends Controller
 
     public function withdraw()
     {
-        return view('user.dashboard.withdraw');
+        $data= [];
+        $data['balance'] = auth('web')->user()->wallet->balance;
+        return view('user.dashboard.withdraw', $data);
     }
 
     public function makeWithdrawal(DepositRequest $request)
@@ -46,7 +48,9 @@ class TransactionController extends Controller
 
     public function transfer()
     {
-        return view('user.dashboard.transfer');
+        $data= [];
+        $data['balance'] = auth('web')->user()->wallet->balance;
+        return view('user.dashboard.transfer', $data);
     }
 
     public function makeTransfer(TransferRequest $request)

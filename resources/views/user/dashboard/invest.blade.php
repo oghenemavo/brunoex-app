@@ -20,6 +20,8 @@
                         <form id="invest" action="{{ route('user.make.investment') }}">
                             @csrf
 
+                            <input type="hidden" name="balance" value="{{ $balance }}">
+
                             <div class="form-group">
                                 <label for="plan" class="form-label">Plans</label>
                                 <div class="form-control-wrap">
@@ -51,7 +53,8 @@
     
     @push('scripts')
     <script src="{{ asset('assets/js/jquery.form.js') }}"></script>
-        <script>
+    <script>
+        $(function() {
             $('#invest').validate({
                 rules: {
                     plan: {
@@ -63,10 +66,22 @@
                 },
                 submitHandler: function(form) {
                     $(form).find('button').attr('disabled', true)
-                    $(form).ajaxSubmit(ajaxOptions);
+
+                    if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Insufficient Balance',
+                        })
+
+                        $(form).find('button').attr('disabled', false)
+                    } else {
+                        $(form).ajaxSubmit(ajaxOptions);
+                    }
+
                 }
             });
-
+    
             const ajaxOptions = {
                 type: 'POST',
                 url: $(this).prop('action'),
@@ -116,6 +131,8 @@
                     });
                 }
             };
-        </script>
+
+        });
+    </script>
     @endpush
 </x-layouts.dashboard.user>

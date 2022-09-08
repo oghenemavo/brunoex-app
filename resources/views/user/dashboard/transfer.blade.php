@@ -20,6 +20,8 @@
                         <form id="transfer" action="{{ route('user.make.transfer') }}">
                             @csrf
 
+                            <input type="hidden" name="balance" value="{{ $balance }}">
+
                             <div class="form-group">
                                 <label class="form-label" for="email">Recipient's Email</label>
                                 <div class="form-control-wrap">
@@ -70,7 +72,18 @@
                 },
                 submitHandler: function(form) {
                     $(form).find('button').attr('disabled', true)
-                    $(form).ajaxSubmit(ajaxOptions);
+                    
+                    if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Insufficient Balance',
+                        })
+
+                        $(form).find('button').attr('disabled', false)
+                    } else {
+                        $(form).ajaxSubmit(ajaxOptions);
+                    }
                 }
             });
 

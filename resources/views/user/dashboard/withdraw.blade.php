@@ -19,6 +19,7 @@
                     <div class="card-inner">
                         <form id="withdraw" action="{{ route('user.make.withdraw') }}">
                             @csrf
+                            <input type="hidden" name="balance" value="{{ $balance }}">
 
                             <div class="form-group">
                                 <label class="form-label" for="amount">Amount</label>
@@ -59,7 +60,18 @@
                 },
                 submitHandler: function(form) {
                     $(form).find('button').attr('disabled', true)
-                    $(form).ajaxSubmit(ajaxOptions);
+                    
+                    if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Insufficient Balance',
+                        })
+
+                        $(form).find('button').attr('disabled', false)
+                    } else {
+                        $(form).ajaxSubmit(ajaxOptions);
+                    }
                 }
             });
 
