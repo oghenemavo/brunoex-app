@@ -42,6 +42,13 @@
                     </a>
                 </li><!-- .nk-menu-item -->
 
+                <li class="nk-menu-item">
+                    <a href="{{ route('admin.users') }}" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
+                        <span class="nk-menu-text">Users</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+
                 <li class="nk-menu-item has-sub">
                     <a href="#" class="nk-menu-link nk-menu-toggle">
                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>

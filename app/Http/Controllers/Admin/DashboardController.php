@@ -14,6 +14,11 @@ class DashboardController extends Controller
         return view('admin.dashboard.index');
     }
 
+    public function users()
+    {
+        return view('admin.dashboard.users');
+    }
+
     public function profile()
     {
         $data = [];

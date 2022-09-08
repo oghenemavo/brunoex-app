@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\MiscRepository;
 use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
 
 class DataController extends Controller
 {
     public function __construct(
-        protected TransactionRepository $transactionRepository
+        protected TransactionRepository $transactionRepository,
+        protected MiscRepository $miscRepository,
     )
     {
         
@@ -37,5 +39,11 @@ class DataController extends Controller
     {
         $investments = $this->transactionRepository->fetchInvestments();
         return response()->json(['investments' => $investments]);
+    }
+
+    public function allUser()
+    {
+        $users = $this->miscRepository->fetchUser();
+        return response()->json(['users' => $users]);
     }
 }

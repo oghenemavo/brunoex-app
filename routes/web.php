@@ -111,12 +111,13 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::get('transactions-treated', [AdminTransactionController::class, 'transactionsTreatedRequest'])->name('transactions.treated.request');
             Route::get('investment', [AdminTransactionController::class, 'investment'])->name('investment');
             
-
+            
             Route::put('deposit/{deposit}/edit', [AdminTransactionController::class, 'validateDeposit'])->name('validate.deposit');
             Route::put('withdraw/{withdraw}/edit', [AdminTransactionController::class, 'validateWithdrawal'])->name('validate.withdraw');
             
             Route::resource('plans', PlanController::class);
             
+            Route::get('users', [AdminDashboardController::class, 'users'])->name('users');
 
         });
         Route::prefix('data')->name('data.')->group(function() {
@@ -124,6 +125,7 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::get('transactions-request', [DataController::class, 'allTransactionsRequest'])->name('transactions.request');
             Route::get('transactions-treated', [DataController::class, 'allTransactionsTreatedRequest'])->name('transactions.treated.request');
             Route::get('investment', [DataController::class, 'allInvestment'])->name('investment');
+            Route::get('users', [DataController::class, 'alluser'])->name('users');
         });
     
     });
