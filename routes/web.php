@@ -53,7 +53,7 @@ Route::middleware('prevent_cached_history')->group(function() {
             
             Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
             Route::get('profile', [DashboardController::class, 'profile'])->name('profile');
-            Route::get('profile/security', [DashboardController::class, 'security'])->name('security');
+            Route::get('profile/settings', [DashboardController::class, 'security'])->name('settings');
             Route::put('change-password', [DashboardController::class, 'password'])->name('change.password');
             Route::put('change-email', [DashboardController::class, 'email'])->name('change.email');
             Route::put('kyc-profile', [DashboardController::class, 'kycProfile'])->name('kyc.profile');

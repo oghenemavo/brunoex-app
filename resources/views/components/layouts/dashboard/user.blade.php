@@ -121,11 +121,11 @@
                                         </ul>
                                         <ul class="link-list">
                                             <li><a href="{{ route('user.profile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                            <li><a href="html/crypto/profile-security.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                            <li><a href="html/crypto/profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                            <li><a href="{{ route('user.profile.settings') }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                            <!-- <li><a href="html/crypto/profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
                                         </ul>
                                         <ul class="link-list">
-                                            <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                            <li><a href="{{ route('user.logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
                                         </ul>
                                     </div>
                                 </div><!-- .nk-sidebar-widget -->
