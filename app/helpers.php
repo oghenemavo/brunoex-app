@@ -4,6 +4,7 @@ use App\Enums\DurationUnitEnum;
 use App\Enums\ProfitTypeEnum;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 if (! function_exists('profit')) {
     function profit($amount, $plan)
@@ -16,6 +17,35 @@ if (! function_exists('validBalance')) {
     function validBalance(User $user, $amount)
     {
         return $user->wallet->balance >= $amount;
+    }
+}
+
+if (! function_exists('setDurationName')) {
+    function setDurationName($unit, $period)
+    {
+        $name = '';
+        switch (DurationUnitEnum::tryFrom($unit)) {
+            case DurationUnitEnum::DAILY:
+                $word = 'day';
+                $name .= $period > 1 ? Str::plural($word) : $word;
+                break;
+
+            case DurationUnitEnum::WEEKLY:
+                $word = 'week';
+                $name .= $period > 1 ? Str::plural($word) : $word;
+                break;
+
+            case DurationUnitEnum::MONTHLY:
+                $word = 'month';
+                $name .= $period > 1 ? Str::plural($word) : $word;
+                break;
+
+            case DurationUnitEnum::ANNUALLY:
+                $word = 'year';
+                $name .= $period > 1 ? Str::plural($word) : $word;
+                break;
+        }
+        return $name;
     }
 }
 

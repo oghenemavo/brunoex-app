@@ -17,10 +17,12 @@ class PlanController extends Controller
     
     public function index()
     {
-        return view('admin.settings.plan');
+        $data = [];
+        $data['plans'] = Plan::query()->get();
+        return view('admin.settings.plan-list', $data);
     }
     
-    public function create(PlanRequest $request)
+    public function create()
     {
         return view('admin.settings.plan');
     }

@@ -75,11 +75,6 @@ class TransactionController extends Controller
         return response()->json(['status' => false, 'message' => 'Unable to Initiated Deposit']);
     }
 
-    public function withdraw()
-    {
-        return view('admin.transactions.withdraw', ['withdraw' => TransactionRequest::find('3')]);
-    }
-
     public function validateWithdrawal(ValidateDepositRequest $request, TransactionRequest $withdraw)
     {
         $data = $request->validated();

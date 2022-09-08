@@ -106,17 +106,17 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::get('penalty', [AdminTransactionController::class, 'penalty'])->name('penalty');
             Route::post('penalty/create', [AdminTransactionController::class, 'addPenalty'])->name('add.penalty');
             
+            Route::get('transactions', [AdminTransactionController::class, 'index'])->name('transactions');
             Route::get('transactions-request', [AdminTransactionController::class, 'transactionsRequest'])->name('transactions.request');
-            Route::get('transactions-request', [AdminTransactionController::class, 'transactionsRequest'])->name('transactions.request');
+            Route::get('transactions-treated', [AdminTransactionController::class, 'transactionsTreatedRequest'])->name('transactions.treated.request');
             Route::get('investment', [AdminTransactionController::class, 'investment'])->name('investment');
-            // Route::put('deposit/{deposit}/edit', [AdminTransactionController::class, 'validateDeposit'])->name('validate.deposit');
-    
-            Route::get('withdraws', [AdminTransactionController::class, 'withdraw'])->name('withdraw');
-            // Route::put('withdraw/{withdraw}/edit', [AdminTransactionController::class, 'validateWithdrawal'])->name('validate.withdraw');
+            
+
+            Route::put('deposit/{deposit}/edit', [AdminTransactionController::class, 'validateDeposit'])->name('validate.deposit');
+            Route::put('withdraw/{withdraw}/edit', [AdminTransactionController::class, 'validateWithdrawal'])->name('validate.withdraw');
             
             Route::resource('plans', PlanController::class);
             
-            Route::get('transactions', [AdminTransactionController::class, 'index'])->name('transactions');
 
         });
         Route::prefix('data')->name('data.')->group(function() {
