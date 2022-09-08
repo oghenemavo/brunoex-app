@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DataController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
@@ -101,18 +102,24 @@ Route::middleware('prevent_cached_history')->group(function() {
     
             Route::get('bonus', [AdminTransactionController::class, 'bonus'])->name('bonus');
             Route::post('bonus/create', [AdminTransactionController::class, 'addBonus'])->name('add.bonus');
-    
+            
             Route::get('penalty', [AdminTransactionController::class, 'penalty'])->name('penalty');
             Route::post('penalty/create', [AdminTransactionController::class, 'addPenalty'])->name('add.penalty');
-    
-            Route::get('deposits', [AdminTransactionController::class, 'deposit'])->name('deposit');
+            
+            Route::get('transactions-request', [AdminTransactionController::class, 'transactionsRequest'])->name('deposit');
             Route::put('deposit/{deposit}/edit', [AdminTransactionController::class, 'validateDeposit'])->name('validate.deposit');
     
             Route::get('withdraws', [AdminTransactionController::class, 'withdraw'])->name('withdraw');
             Route::put('withdraw/{withdraw}/edit', [AdminTransactionController::class, 'validateWithdrawal'])->name('validate.withdraw');
-    
+            
             Route::resource('plans', PlanController::class);
-    
+            
+            Route::get('transactions', [AdminTransactionController::class, 'index'])->name('transactions');
+
+        });
+        Route::prefix('data')->name('data.')->group(function() {
+            Route::get('transactions', [DataController::class, 'allTransactions'])->name('transactions');
+            Route::get('transactions-request', [DataController::class, 'allTransactionsRequest'])->name('transactions.request');
         });
     
     });

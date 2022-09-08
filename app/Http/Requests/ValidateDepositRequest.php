@@ -28,10 +28,6 @@ class ValidateDepositRequest extends FormRequest
     {
         return [
             'action' => 'required|in:1,2',
-            'status' => [
-                'required|in:pending',
-                Rule::in([new Enum(TransRequestStatusEnum::class)]),
-            ],
         ];
     }
 }

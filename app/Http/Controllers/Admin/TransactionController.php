@@ -16,6 +16,11 @@ class TransactionController extends Controller
     {
     }
 
+    public function index()
+    {
+        return view('admin.transactions.index');
+    }
+
     public function bonus()
     {
         return view('admin.transactions.bonus');
@@ -44,9 +49,9 @@ class TransactionController extends Controller
         return response()->json(['status' => false, 'message' => 'Unable to Initiated Penalty']);
     }
 
-    public function deposit()
+    public function transactionsRequest()
     {
-        return view('admin.transactions.deposit', ['deposit' => TransactionRequest::find('2')]);
+        return view('admin.transactions.request');
     }
 
     public function validateDeposit(ValidateDepositRequest $request, TransactionRequest $deposit)
@@ -54,7 +59,8 @@ class TransactionController extends Controller
         $data = $request->validated();
 
         if ($this->transactionRepository->validateDeposit($data, $deposit)) {
-            return response()->json(['status' => true, 'message' => 'Deposit Initiated Successfully']);
+            $message = $request->action == '1' ? 'Deposit Treated Successfully' : 'Deposit Rejected';
+            return response()->json(['status' => true, 'message' => $message]);
         }
         return response()->json(['status' => false, 'message' => 'Unable to Initiated Deposit']);
     }

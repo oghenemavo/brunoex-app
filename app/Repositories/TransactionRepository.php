@@ -42,7 +42,7 @@ class TransactionRepository implements ITransactionRepository
                     'user_id' => $recipient->id,
                     'type' => TransactionTypeEnum::CREDIT,
                     'amount' => $amount,
-                    'details' => json_encode($details),
+                    'details' => $details,
                     'status' => 'COMPLETED',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -75,7 +75,7 @@ class TransactionRepository implements ITransactionRepository
                     'user_id' => $recipient->id,
                     'type' => TransactionTypeEnum::DEBIT,
                     'amount' => $amount,
-                    'details' => json_encode($details),
+                    'details' => $details,
                     'status' => 'COMPLETED',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -89,7 +89,7 @@ class TransactionRepository implements ITransactionRepository
 
     public function validateDeposit(array $attributes, TransactionRequest $deposit)
     {
-        DB::transaction(function() use($attributes, $deposit) {
+        return DB::transaction(function() use($attributes, $deposit) {
             $amount = $deposit->amount;
             $user = $deposit->user;
             $action = data_get($attributes, 'action');
@@ -110,7 +110,7 @@ class TransactionRepository implements ITransactionRepository
                         'user_id' => $user->id,
                         'type' => TransactionTypeEnum::CREDIT,
                         'amount' => $amount,
-                        'details' => json_encode($details),
+                        'details' => $details,
                         'status' => 'COMPLETED',
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
@@ -130,7 +130,7 @@ class TransactionRepository implements ITransactionRepository
 
     public function validateWithdraw(array $attributes, TransactionRequest $withdraw)
     {
-        DB::transaction(function() use($attributes, $withdraw) {
+        return DB::transaction(function() use($attributes, $withdraw) {
             $amount = $withdraw->amount;
             $user = $withdraw->user;
             $action = data_get($attributes, 'action');
@@ -151,7 +151,7 @@ class TransactionRepository implements ITransactionRepository
                         'user_id' => $user->id,
                         'type' => TransactionTypeEnum::DEBIT,
                         'amount' => $amount,
-                        'details' => json_encode($details),
+                        'details' => $details,
                         'status' => 'COMPLETED',
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
@@ -167,6 +167,46 @@ class TransactionRepository implements ITransactionRepository
             return true;
         });
         return false;
+    }
+
+    public function fetchTransactions()
+    {
+        $transactionCollection = $this->transaction->query()->orderBy('id', 'DESC')->get();
+        $transactions = $transactionCollection->map(function($item, $key) {
+            $user = $item->user;
+            $data['id'] = $item->id;
+            $data['uuid'] = $item->uuid;
+            $data['name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['type'] = $item->type;
+            $data['amount'] = $item->amount;
+            $data['details'] = $item->details;
+            $data['status'] = $item->status;
+            $data['created_at'] = $item->created_at;
+
+            return $data;
+        });
+
+        return $transactions;
+    }
+
+    public function fetchTransactionsRequest()
+    {
+        $transactionCollection = $this->transRequest->query()->where('status', TransRequestStatusEnum::PENDING)->orderBy('id', 'DESC')->get();
+        $transactions = $transactionCollection->map(function($item, $key) {
+            $user = $item->user;
+            $data['id'] = $item->id;
+            $data['name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['request'] = $item->request;
+            $data['amount'] = $item->amount;
+            $data['details'] = $item->details;
+            $data['created_at'] = $item->created_at;
+
+            return $data;
+        });
+
+        return $transactions;
     }
 
 }
