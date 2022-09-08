@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Enums\TransactionTypeEnum;
 use App\Enums\TransRequestStatusEnum;
 use App\Interfaces\ITransactionRepository;
+use App\Models\Investment;
 use App\Models\Transaction;
 use App\Models\TransactionRequest;
 use App\Models\User;
@@ -207,6 +208,49 @@ class TransactionRepository implements ITransactionRepository
         });
 
         return $transactions;
+    }
+
+    public function fetchTransactionsTreatedRequest()
+    {
+        $transactionCollection = $this->transRequest->query()->whereNot('status', TransRequestStatusEnum::PENDING)->orderBy('id', 'DESC')->get();
+        $transactions = $transactionCollection->map(function($item, $key) {
+            $user = $item->user;
+            $data['id'] = $item->id;
+            $data['name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['request'] = $item->request;
+            $data['amount'] = $item->amount;
+            $data['details'] = $item->details;
+            $data['status'] = $item->status;
+            $data['created_at'] = $item->created_at;
+
+            return $data;
+        });
+
+        return $transactions;
+    }
+
+    public function fetchInvestments()
+    {
+        $investmentCollection = Investment::query()->orderBy('id', 'DESC')->get();
+        $investments = $investmentCollection->map(function($item, $key) {
+            $user = $item->user;
+            $data['id'] = $item->id;
+            $data['transaction'] = $item->transaction->uuid;
+            $data['name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['amount'] = $item->amount;
+            $data['plan'] = $item->plan->get('name');
+            $data['profit'] = $item->profit;
+            $data['details'] = $item->plan;
+            $data['status'] = $item->status;
+            $data['created_at'] = $item->created_at;
+            $data['due_at'] = $item->due_at;
+
+            return $data;
+        });
+
+        return $investments;
     }
 
 }

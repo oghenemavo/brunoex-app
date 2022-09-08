@@ -169,28 +169,3 @@
     @endpush
 
 </x-layouts.dashboard.admin>
-
-
-
-
-
-
-
-
-
-<!-- <form action="" method="POST">
-    @csrf
-    @method('PUT')
-
-    <select name="action">
-        <option value="1">Accept</option>
-        <option value="2">Reject</option>
-    </select>
-
-    <div class="col-md-6 offset-md-4">
-        <button type="submit" class="btn btn-primary">
-            Invest
-        </button>
-    </div>
-
-</form> -->

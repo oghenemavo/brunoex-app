@@ -106,11 +106,13 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::get('penalty', [AdminTransactionController::class, 'penalty'])->name('penalty');
             Route::post('penalty/create', [AdminTransactionController::class, 'addPenalty'])->name('add.penalty');
             
-            Route::get('transactions-request', [AdminTransactionController::class, 'transactionsRequest'])->name('deposit');
-            Route::put('deposit/{deposit}/edit', [AdminTransactionController::class, 'validateDeposit'])->name('validate.deposit');
+            Route::get('transactions-request', [AdminTransactionController::class, 'transactionsRequest'])->name('transactions.request');
+            Route::get('transactions-request', [AdminTransactionController::class, 'transactionsRequest'])->name('transactions.request');
+            Route::get('investment', [AdminTransactionController::class, 'investment'])->name('investment');
+            // Route::put('deposit/{deposit}/edit', [AdminTransactionController::class, 'validateDeposit'])->name('validate.deposit');
     
             Route::get('withdraws', [AdminTransactionController::class, 'withdraw'])->name('withdraw');
-            Route::put('withdraw/{withdraw}/edit', [AdminTransactionController::class, 'validateWithdrawal'])->name('validate.withdraw');
+            // Route::put('withdraw/{withdraw}/edit', [AdminTransactionController::class, 'validateWithdrawal'])->name('validate.withdraw');
             
             Route::resource('plans', PlanController::class);
             
@@ -120,6 +122,8 @@ Route::middleware('prevent_cached_history')->group(function() {
         Route::prefix('data')->name('data.')->group(function() {
             Route::get('transactions', [DataController::class, 'allTransactions'])->name('transactions');
             Route::get('transactions-request', [DataController::class, 'allTransactionsRequest'])->name('transactions.request');
+            Route::get('transactions-treated', [DataController::class, 'allTransactionsTreatedRequest'])->name('transactions.treated.request');
+            Route::get('investment', [DataController::class, 'allInvestment'])->name('investment');
         });
     
     });

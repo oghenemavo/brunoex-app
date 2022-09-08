@@ -26,4 +26,16 @@ class DataController extends Controller
         $transactions = $this->transactionRepository->fetchTransactionsRequest();
         return response()->json(['transactions' => $transactions]);
     }
+
+    public function allTransactionsTreatedRequest()
+    {
+        $transactions = $this->transactionRepository->fetchTransactionsTreatedRequest();
+        return response()->json(['transactions' => $transactions]);
+    }
+
+    public function allInvestment()
+    {
+        $investments = $this->transactionRepository->fetchInvestments();
+        return response()->json(['investments' => $investments]);
+    }
 }

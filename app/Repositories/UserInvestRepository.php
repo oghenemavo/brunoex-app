@@ -24,7 +24,9 @@ class UserInvestRepository implements IUserInvestRepository
         if (validBalance($user, $amount)) {
             return DB::transaction(function() use($attributes, $user, $amount) {
                 // get plan
-                $plan = Plan::find(data_get($attributes, 'plan'));
+                $planId = data_get($attributes, 'plan');
+                $plan = Plan::find($planId);
+
                 $settings = [
                     'name' => $plan->name,
                     'profit_type' => $plan->meta->get('profit_type'),
@@ -32,6 +34,7 @@ class UserInvestRepository implements IUserInvestRepository
                     'duration_unit' => $plan->meta->get('duration_unit'),
                     'duration' => $plan->meta->get('duration'),
                 ];
+
 
                 // debit customer
                 $user->wallet->balance -= $amount;

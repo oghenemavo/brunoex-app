@@ -54,6 +54,16 @@ class TransactionController extends Controller
         return view('admin.transactions.request');
     }
 
+    public function transactionsTreatedRequest()
+    {
+        return view('admin.transactions.treated-request');
+    }
+
+    public function investment()
+    {
+        return view('admin.transactions.investment');
+    }
+
     public function validateDeposit(ValidateDepositRequest $request, TransactionRequest $deposit)
     {
         $data = $request->validated();
