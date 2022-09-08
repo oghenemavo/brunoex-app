@@ -26,10 +26,15 @@ class InvestmentController extends Controller
     public function invest(InvestRequest $request)
     {
         $data = $request->validated();
-        if ($this->userInvestRepository->invest($data)) {
-            return response()->json(['status' => true, 'message' => 'Investment created']);
+        $user = auth('web')->user();
+
+        if (validBalance($user, $request->amount)) {
+            if ($this->userInvestRepository->invest($data)) {
+                return response()->json(['status' => true, 'message' => 'Investment created']);
+            }
+            return response()->json(['status' => false, 'message' => 'Unable to setup Investment']);
         }
-        return response()->json(['status' => false, 'message' => 'Unable to setup Investment']);
+        return response()->json(['status' => false, 'message' => 'Insufficient Balance']);
     }
 
     public function plans()

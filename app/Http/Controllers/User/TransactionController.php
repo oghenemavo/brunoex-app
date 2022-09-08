@@ -40,10 +40,15 @@ class TransactionController extends Controller
     public function makeWithdrawal(DepositRequest $request)
     {
         $data = $request->validated();
-        if ($this->userTransactionRepository->withdrawRequest($data)) {
-            return response()->json(['status' => true, 'message' => 'Withdrawal Requested, Admin Verifying shortly']);
+        $user = auth('web')->user();
+        
+        if (validBalance($user, $request->amount)) {
+            if ($this->userTransactionRepository->withdrawRequest($data)) {
+                return response()->json(['status' => true, 'message' => 'Withdrawal Requested, Admin Verifying shortly']);
+            }
+            return response()->json(['status' => false, 'message' => 'Unable to Withdraw right now contact Admin']);
         }
-        return response()->json(['status' => false, 'message' => 'Unable to Withdraw right now contact Admin']);
+        return response()->json(['status' => false, 'message' => 'Insufficient Balance']);
     }
 
     public function transfer()
@@ -56,10 +61,14 @@ class TransactionController extends Controller
     public function makeTransfer(TransferRequest $request)
     {
         $data = $request->validated();
+        $user = auth('web')->user();
 
-        if ($this->userTransactionRepository->withdrawRequest($data)) {
-            return response()->json(['status' => true, 'message' => 'Transfer Successful']);
+        if (validBalance($user, $request->amount)) {
+            if ($this->userTransactionRepository->withdrawRequest($data)) {
+                return response()->json(['status' => true, 'message' => 'Transfer Successful']);
+            }
+            return response()->json(['status' => false, 'message' => 'Unable to perform transfer']);
         }
-        return response()->json(['status' => false, 'message' => 'Unable to perform transfer']);
+        return response()->json(['status' => false, 'message' => 'Insufficient Balance']);
     }
 }
