@@ -49,12 +49,11 @@ class UserTransactionRepository implements IUserTransactionRepository
 
     public function transfer(array $attributes)
     {
-        $isValid = false;
         $user = auth()->user();
         $amount = data_get($attributes, 'amount');
 
         if (validBalance($user, $amount)) {
-            DB::transaction(function() use($user, $amount, $attributes) {
+            return DB::transaction(function() use($user, $amount, $attributes) {
                 $user->wallet->balance -= $amount;
                 $user->wallet->save();
                 
@@ -97,9 +96,73 @@ class UserTransactionRepository implements IUserTransactionRepository
                     ],
                 ]);
             });
-            $isValid = true;
+            return true;
         }
-        return $isValid;
+        return false;
+    }
+
+    
+    public function fetchUserTransactions($userId)
+    {
+        $transactionCollection = $this->transaction->query()->where('user_id', $userId)->orderBy('id', 'DESC')->get();
+        $transactions = $transactionCollection->map(function($item, $key) {
+            $user = $item->user;
+            $data['id'] = $item->id;
+            $data['uuid'] = $item->uuid;
+            $data['name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['type'] = $item->type;
+            $data['amount'] = $item->amount;
+            $data['details'] = $item->details;
+            $data['status'] = $item->status;
+            $data['created_at'] = $item->created_at;
+
+            return $data;
+        });
+
+        return $transactions;
+    }
+
+    public function fetchUserTransactionsRequest($userId)
+    {
+        $transactionCollection = $this->transRequest->query()
+        ->where('user_id', $userId)
+        ->where('status', TransRequestStatusEnum::PENDING)
+        ->orderBy('id', 'DESC')->get();
+        $transactions = $transactionCollection->map(function($item, $key) {
+            $user = $item->user;
+            $data['id'] = $item->id;
+            $data['name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['request'] = $item->request;
+            $data['amount'] = $item->amount;
+            $data['details'] = $item->details;
+            $data['created_at'] = $item->created_at;
+
+            return $data;
+        });
+
+        return $transactions;
+    }
+
+    public function fetchTransactionsTreatedRequest($userId)
+    {
+        $transactionCollection = $this->transRequest->query()->where('user_id', $userId)->whereNot('status', TransRequestStatusEnum::PENDING)->orderBy('id', 'DESC')->get();
+        $transactions = $transactionCollection->map(function($item, $key) {
+            $user = $item->user;
+            $data['id'] = $item->id;
+            $data['name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['request'] = $item->request;
+            $data['amount'] = $item->amount;
+            $data['details'] = $item->details;
+            $data['status'] = $item->status;
+            $data['created_at'] = $item->created_at;
+
+            return $data;
+        });
+
+        return $transactions;
     }
 
 }

@@ -75,7 +75,7 @@
                     { 
                         data        : 'balance', className: 'nk-tb-col tb-col-mb',
                         render      : function(data) {
-                            return `<span class="tb-amount">&#8358;${data}</span>`;
+                            return `<span class="tb-amount">&dollar;${data}</span>`;
                         }
                     },
                     { 

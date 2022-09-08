@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordCont
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\DataController as UserDataController;
 use App\Http\Controllers\User\InvestmentController;
 use App\Http\Controllers\User\ResetPasswordController;
 use App\Http\Controllers\User\TransactionController;
@@ -70,6 +71,20 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::get('invest', [InvestmentController::class, 'index'])->name('invest');
             Route::post('invest/create', [InvestmentController::class, 'invest'])->name('make.investment');
             Route::get('wallet', [DashboardController::class, 'wallet'])->name('wallet');
+            
+            Route::get('investments', [DashboardController::class, 'investments'])->name('investments');
+            Route::get('transactions', [DashboardController::class, 'transactions'])->name('transactions');
+            Route::get('transactions-request', [DashboardController::class, 'transactionsRequest'])->name('transactions.request');
+            Route::get('transactions-treated', [DashboardController::class, 'transactionsTreatedRequest'])->name('transactions.treated.request');
+            
+
+            Route::prefix('data')->name('data.')->group(function() {
+                Route::get('investments', [UserDataController::class, 'allInvestment'])->name('investment');
+                Route::get('transactions', [UserDataController::class, 'allTransactions'])->name('transactions');
+                Route::get('transactions-request', [UserDataController::class, 'allTransactionsRequest'])->name('transactions.request');
+                Route::get('transactions-treated', [UserDataController::class, 'allTransactionsTreatedRequest'])->name('transactions.treated.request');
+            });
+            
         });
         
     });

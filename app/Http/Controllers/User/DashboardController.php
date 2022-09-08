@@ -15,6 +15,26 @@ class DashboardController extends Controller
         return view('user.dashboard.index');
     }
 
+    public function investments()
+    {
+        return view('user.dashboard.investment');
+    }
+
+    public function transactions()
+    {
+        return view('user.dashboard.transactions');
+    }
+
+    public function transactionsRequest()
+    {
+        return view('user.dashboard.request');
+    }
+
+    public function transactionsTreatedRequest()
+    {
+        return view('user.dashboard.treated-request');
+    }
+
     public function profile()
     {
         $data = [];

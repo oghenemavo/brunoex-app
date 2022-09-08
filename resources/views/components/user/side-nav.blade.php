@@ -25,7 +25,7 @@
                 <a href="{{ route('user.invest') }}" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Invest</span></a>
             </li>
             <li class="nk-menu-item">
-                <a href="html/invoice-details.html" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Investment Details</span></a>
+                <a href="{{ route('user.investments') }}" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Investment Details</span></a>
             </li>
         </ul><!-- .nk-menu-sub -->
     </li>
@@ -48,10 +48,13 @@
         </a>
         <ul class="nk-menu-sub" style="display: none;">
             <li class="nk-menu-item">
-                <a href="{{ route('user.invest') }}" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Transactions</span></a>
+                <a href="{{ route('user.transactions') }}" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Transactions</span></a>
             </li>
             <li class="nk-menu-item">
-                <a href="html/invoice-details.html" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Transactions Requests</span></a>
+                <a href="{{ route('user.transactions.request') }}" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Transactions Requests</span></a>
+            </li>
+            <li class="nk-menu-item">
+                <a href="{{ route('user.transactions.treated.request') }}" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Transactions Treated Requests</span></a>
             </li>
         </ul><!-- .nk-menu-sub -->
     </li>

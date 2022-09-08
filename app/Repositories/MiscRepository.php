@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Investment;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -42,5 +43,27 @@ class MiscRepository
 
         return $users;
     }
+
+    public function fetchUserInvestments($userId)
+    {
+        $investmentCollection = Investment::query()->where('user_id', $userId)->orderBy('id', 'DESC')->get();
+        $investments = $investmentCollection->map(function($item, $key) {
+            $data['id'] = $item->id;
+            $data['transaction'] = $item->transaction->uuid;
+            $data['amount'] = $item->amount;
+            $data['plan'] = $item->plan->get('name');
+            $data['profit'] = $item->profit;
+            $data['details'] = $item->plan;
+            $data['status'] = $item->status;
+            $data['created_at'] = $item->created_at;
+            $data['due_at'] = $item->due_at;
+
+            return $data;
+        });
+
+        return $investments;
+    }
+
+
 
 }
