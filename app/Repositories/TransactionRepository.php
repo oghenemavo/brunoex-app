@@ -137,7 +137,7 @@ class TransactionRepository implements ITransactionRepository
             $action = data_get($attributes, 'action');
 
             if ($action == '1' && $withdraw->request == 'WITHDRAW' && $withdraw->status == TransRequestStatusEnum::PENDING) {
-                $user->wallet->balance -= $amount;
+                $user->wallet->ledger_balance -= $amount;
                 $user->wallet->save();
                 
                 $details = [
@@ -158,8 +158,14 @@ class TransactionRepository implements ITransactionRepository
                         'updated_at' => Carbon::now(),
                     ],
                 );
+            } elseif ($action == '2' && $withdraw->request == 'WITHDRAW' && $withdraw->status == TransRequestStatusEnum::PENDING) {
+                // rejected
+                $user->wallet->balance += $amount;
+                $user->wallet->ledger_balance -= $amount;
+                $user->wallet->save();
             }
             
+            // update transaction request status
             $status =  $action == '1' ? TransRequestStatusEnum::COMPLETED : TransRequestStatusEnum::REJECTED;
 
             $withdraw->status = $status;

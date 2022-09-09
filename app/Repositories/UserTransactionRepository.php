@@ -36,15 +36,28 @@ class UserTransactionRepository implements IUserTransactionRepository
 
     public function withdrawRequest(array $attributes)
     {
-        return $this->transRequest->create([
-            'user_id' => request()->user()->id,
-            'request' => 'WITHDRAW',
-            'status' => TransRequestStatusEnum::PENDING,
-            'details' => [
-                'narration' => data_get($attributes, 'narration')
-            ],
-            'amount' => data_get($attributes, 'amount'),
-        ]);
+        $user = request()->user();
+        $amount = data_get($attributes, 'amount');
+        if (validBalance($user, $amount)) {
+            return DB::transaction(function() use($user, $amount, $attributes) {
+                $user->wallet->balance -= $amount;
+                $user->wallet->ledger_balance += $amount;
+                $user->wallet->save();
+
+                $this->transRequest->create([
+                    'user_id' => request()->user()->id,
+                    'request' => 'WITHDRAW',
+                    'status' => TransRequestStatusEnum::PENDING,
+                    'details' => [
+                        'narration' => data_get($attributes, 'narration')
+                    ],
+                    'amount' => data_get($attributes, 'amount'),
+                ]);
+
+                return true;
+            });
+        }
+        return false;
     }
 
     public function transfer(array $attributes)
