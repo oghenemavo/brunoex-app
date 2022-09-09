@@ -39,7 +39,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'kyc' => AsCollection::class
+        'profile' => AsCollection::class,
+        'kyc' => AsCollection::class,
+        'kyc_verified' => AsCollection::class,
     ];
     
     public function sendPasswordResetNotification($token)

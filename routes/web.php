@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DataController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
+use App\Http\Controllers\KycController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\DataController as UserDataController;
@@ -58,7 +59,11 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::put('change-email', [DashboardController::class, 'email'])->name('change.email');
             Route::put('kyc-profile', [DashboardController::class, 'kycProfile'])->name('kyc.profile');
             Route::put('kyc-address', [DashboardController::class, 'kycAddress'])->name('kyc.address');
-    
+            
+            Route::get('kyc-prompt', [KycController::class, 'index'])->name('kyc.prompt');
+            Route::get('kyc-verification', [KycController::class, 'kycPage'])->name('kyc.page');
+            Route::post('submit-kyc', [KycController::class, 'verification'])->name('submit.kyc');
+            
             Route::get('deposit', [TransactionController::class, 'deposit'])->name('deposit');
             Route::post('deposit/create', [TransactionController::class, 'makeDeposit'])->name('make.deposit');
             Route::get('withdraw', [TransactionController::class, 'withdraw'])->name('withdraw');

@@ -124,6 +124,9 @@
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#address">Address</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#documents">Documents</a>
+                        </li>
                     </ul><!-- .nav-tabs -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="personal">
@@ -398,6 +401,8 @@
                         });
     
                         $('#change-password-modal').modal('hide');
+
+                        setTimeout(() => window.location.reload(), 2500);
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -405,7 +410,7 @@
                             text: response.message,
                         })
                     }
-    
+
                     $('#kyc-address').find('button').attr('disabled', false)
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {

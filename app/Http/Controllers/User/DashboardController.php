@@ -4,8 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Enums\TransactionTypeEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\KycRequest;
 use App\Models\Investment;
 use App\Models\Transaction;
+use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -14,6 +16,11 @@ use Illuminate\Validation\Rule;
 
 class DashboardController extends Controller
 {
+    public function __construct(protected UserRepository $userRepository)
+    {
+        
+    }
+
     public function index()
     {
         $month = Carbon::now()->month;
@@ -79,40 +86,17 @@ class DashboardController extends Controller
             'dob' => 'required',
         ]);
 
-        $user = auth('web')->user();
-        $user->name = $request->name;
-        $user->kyc->put('phone', $request->phone);
-        $user->kyc->put('gender', $request->gender);
-        $user->kyc->put('dob', $request->dob);
-
-        if ($user->save()) {
+        $data = $request->all();
+        if ($this->userRepository->updateUser($data, $request->user('web'))) {
             return response()->json(['status' => true, 'message' => 'Profile updated']);
         }
         return response()->json(['status' => false, 'message' => 'Unable to update Profile']);
     }
     
-    public function kycAddress(Request $request)
+    public function kycAddress(KycRequest $request)
     {
-        $request->validate([
-            'address' => 'required|min:3|string',
-            'address_two' => 'nullable|min:3|string',
-            'city' => 'nullable|min:3|string',
-            'state' => 'required|min:3|string',
-            'zip' => 'nullable|min:3|string',
-            'country' => 'required|min:3|string',
-            'nation' => 'nullable|min:3|string',
-        ]);
-
-        $user = auth('web')->user();
-        $user->kyc->put('address', $request->address);
-        $user->kyc->put('address_two', $request->address_two);
-        $user->kyc->put('city', $request->city);
-        $user->kyc->put('state', $request->state);
-        $user->kyc->put('zip', $request->zip);
-        $user->kyc->put('country', $request->country);
-        $user->kyc->put('nation', $request->nation);
-
-        if ($user->save()) {
+        $user = $request->user('web');
+        if ($this->userRepository->updateKyc($request->validated(), $user)) {
             return response()->json(['status' => true, 'message' => 'Profile updated']);
         }
         return response()->json(['status' => false, 'message' => 'Unable to update Profile']);
