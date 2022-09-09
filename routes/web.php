@@ -57,8 +57,8 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::get('profile/settings', [DashboardController::class, 'security'])->name('settings');
             Route::put('change-password', [DashboardController::class, 'password'])->name('change.password');
             Route::put('change-email', [DashboardController::class, 'email'])->name('change.email');
-            Route::put('kyc-profile', [DashboardController::class, 'kycProfile'])->name('kyc.profile');
-            Route::put('kyc-address', [DashboardController::class, 'kycAddress'])->name('kyc.address');
+            Route::put('update-profile', [DashboardController::class, 'profileUpdate'])->name('profile.update');
+            Route::put('update-address', [DashboardController::class, 'addressUpdate'])->name('address.update');
             
             Route::get('kyc-prompt', [KycController::class, 'index'])->name('kyc.prompt');
             Route::get('kyc-verification', [KycController::class, 'kycPage'])->name('kyc.page');

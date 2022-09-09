@@ -2,15 +2,27 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\IMiscRepository;
 use App\Models\Investment;
 use App\Models\User;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 
-class MiscRepository 
+class MiscRepository implements IMiscRepository
 {
     public function __construct(
         protected User $user,
     ) {
+    }
+
+    public function fetchCountries()
+    {
+        $client =  new Client();
+        $url = 'https://restcountries.com/v3.1/all?fields=name';
+
+        return $client->request('GET', $url, [
+            'verify' => false,
+        ]);
     }
 
     public function fetchUser()

@@ -69,26 +69,26 @@
             <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
                 <div class="data-col">
                     <span class="data-label">Phone Number</span>
-                    <span class="data-value text-soft">{{ empty($user->kyc->get('phone')) ? 'Not added yet' : $user->kyc->get('phone') }}</span>
+                    <span class="data-value text-soft">{{ empty($user->profile->get('phone')) ? 'Not added yet' : $user->profile->get('phone') }}</span>
                 </div>
                 <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
             </div><!-- .data-item -->
             <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
                 <div class="data-col">
                     <span class="data-label">Date of Birth</span>
-                    <span class="data-value">{{ empty($user->kyc->get('dob')) ? 'Not added yet' : date('d M, Y', strtotime($user->kyc->get('dob'))) }}</span>
+                    <span class="data-value">{{ empty($user->profile->get('dob')) ? 'Not added yet' : date('d M, Y', strtotime($user->profile->get('dob'))) }}</span>
                 </div>
                 <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
             </div><!-- .data-item -->
             <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit" data-tab-target="#address">
                 <div class="data-col">
                     <span class="data-label">Address</span>
-                    <span class="data-value">{{ empty($user->kyc->get('address')) ? 'Not added yet' : $user->kyc->get('address') }}</span>
+                    <span class="data-value">{{ empty($user->profile->get('address')) ? 'Not added yet' : $user->profile->get('address') }}</span>
                 </div>
                 <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
             </div><!-- .data-item -->
         </div><!-- .nk-data -->
-        <div class="nk-data data-list">
+        <!-- <div class="nk-data data-list">
             <div class="data-head">
                 <h6 class="overline-title">Preferences</h6>
             </div>
@@ -98,14 +98,15 @@
                     <span class="data-value">English (United State)</span>
                 </div>
                 <div class="data-col data-col-end"><a data-bs-toggle="modal" href="#profile-edit" class="link link-primary">Change Language</a></div>
-            </div><!-- .data-item -->
+            </div>
             <div class="data-item">
                 <div class="data-col">
                     <span class="data-label">Timezone</span>
                     <span class="data-value">Bangladesh (GMT +6)</span>
                 </div>
                 <div class="data-col data-col-end"><a data-bs-toggle="modal" href="#profile-edit" class="link link-primary">Change</a></div>
-            </div><!-- .data-item -->
+            </div> -->
+            <!-- .data-item -->
         </div><!-- .nk-data -->
     </div>
     <!-- NK-Block @e -->
@@ -124,13 +125,10 @@
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#address">Address</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#documents">Documents</a>
-                        </li>
                     </ul><!-- .nav-tabs -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="personal">
-                            <form id="kyc-profile" action="{{ route('user.kyc.profile') }}" method="POST">
+                            <form id="kyc-profile" action="{{ route('user.profile.update') }}" method="POST">
                                 @csrf
                                 <div class="row gy-4">
                                     <div class="col-md-6">
@@ -142,7 +140,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" for="phone">Phone Number</label>
-                                            <input type="text" class="form-control form-control-lg" id="phone" name="phone" value="{{ $user->kyc->get('phone') }}" placeholder="Phone Number">
+                                            <input type="text" class="form-control form-control-lg" id="phone" name="phone" value="{{ $user->profile->get('phone') }}" placeholder="Phone Number">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -150,16 +148,16 @@
                                             <label class="form-label" for="gender">Gender</label>
                                             <select name="gender" class="form-select" id="gender" name="" data-placeholder="Please select" data-ui="lg">
                                                 <option value=""></option>
-                                                <option value="male" @selected($user->kyc->get('gender') == "male")>Male</option>
-                                                <option value="female" @selected($user->kyc->get('gender') == "female")>Female</option>
-                                                <option value="other" @selected($user->kyc->get('gender') == "other")>Others</option>
+                                                <option value="male" @selected($user->profile->get('gender') == "male")>Male</option>
+                                                <option value="female" @selected($user->profile->get('gender') == "female")>Female</option>
+                                                <option value="other" @selected($user->profile->get('gender') == "other")>Others</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" for="dob">Date of Birth</label>
-                                            <input type="text" class="form-control form-control-lg date-picker" id="dob" name="dob" value="{{ $user->kyc->get('dob') }}" placeholder="Enter your BirthDay">
+                                            <input type="text" class="form-control form-control-lg date-picker" id="dob" name="dob" value="{{ $user->profile->get('dob') }}" placeholder="Enter your BirthDay">
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -176,19 +174,19 @@
                             </form>
                         </div><!-- .tab-pane -->
                         <div class="tab-pane" id="address">
-                            <form id="kyc-address" action="{{ route('user.kyc.address') }}" method="post">
+                            <form id="kyc-address" action="{{ route('user.address.update') }}" method="post">
                                 @csrf
                                 <div class="row gy-4">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" for="address">Address Line 1 <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-lg" id="address" name="address" value="{{ $user->kyc->get('address') }}">
+                                            <input type="text" class="form-control form-control-lg" id="address" name="address" value="{{ $user->profile->get('address') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="address_two">Address Line 2</label>
-                                            <input type="text" class="form-control form-control-lg" id="address_two" name="address_two" value="{{ $user->kyc->get('address_two') }}">
+                                            <label class="form-label" for="address_alt">Address Line 2</label>
+                                            <input type="text" class="form-control form-control-lg" id="address_alt" name="address_alt" value="{{ $user->profile->get('address_alt') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-lg-6">
@@ -197,7 +195,7 @@
                                                     <label class="form-label" for="city">City</label>
                                                 </div>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" name="city" class="form-control form-control-lg" id="city" value="{{ $user->kyc->get('city') }}">
+                                                    <input type="text" name="city" class="form-control form-control-lg" id="city" value="{{ $user->profile->get('city') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -207,7 +205,7 @@
                                                     <label class="form-label" for="state">State / Province <span class="text-danger">*</span></label>
                                                 </div>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control form-control-lg" id="state" name="state" value="{{ $user->kyc->get('state') }}">
+                                                    <input type="text" class="form-control form-control-lg" id="state" name="state" value="{{ $user->profile->get('state') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +215,7 @@
                                                     <label class="form-label" for="zip">Zip / Postal Code</label>
                                                 </div>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" name="zip" class="form-control form-control-lg" id="zip" value="{{ $user->kyc->get('zip') }}">
+                                                    <input type="text" name="zip" class="form-control form-control-lg" id="zip" value="{{ $user->profile->get('zip') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -227,7 +225,7 @@
                                                 <select name="country" class="form-select" id="country" data-ui="lg" data-placeholder="Please select" data-search="on">
                                                     <option value=""></option>
                                                     @foreach($countries as $country)
-                                                        <option value="{{ $country->name->common }}" @selected($country->name->common == $user->kyc->get('country'))>
+                                                        <option value="{{ $country->name->common }}" @selected($country->name->common == $user->profile->get('country'))>
                                                             {{ $country->name->common }}
                                                         </option>
                                                     @endforeach
@@ -239,7 +237,7 @@
                                                 <label class="form-label" for="nationality">Nationality <span class="small">(Citizenship)</span></label>
                                                 <select name="nationality" class="form-select" id="nationality" data-ui="lg" data-search="on">
                                                     @foreach($countries as $country)
-                                                        <option value="{{ $country->name->common }}" @selected($country->name->common == $user->kyc->get('country'))>{{ $country->name->common }}</option>
+                                                        <option value="{{ $country->name->common }}" @selected($country->name->common == $user->profile->get('country'))>{{ $country->name->common }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -247,7 +245,7 @@
                                     <div class="col-12">
                                         <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                                             <li>
-                                                <button class="btn btn-lg btn-info">Update Address</button>
+                                                <button class="btn btn-lg btn-info">Update Profile Address</button>
                                             </li>
                                             <li>
                                                 <a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a>
@@ -310,8 +308,10 @@
                             showConfirmButton: false,
                             timer: 2000
                         });
-    
+
+                        
                         $('#profile-edit').modal('hide');
+                        setTimeout(() => window.location.reload(), 2500);
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -328,6 +328,7 @@
                     console.log(errorThrown)
     
                     let errors = XMLHttpRequest.responseJSON.errors;
+                    
                     if (errors.hasOwnProperty('name')) {
                         const name = $('#name').addClass('is-invalid');
                         $(`<span class="invalid-feedback" role="alert">${errors.name[0]}</span>`).insertAfter(name);
@@ -401,8 +402,8 @@
                         });
     
                         $('#change-password-modal').modal('hide');
-
                         setTimeout(() => window.location.reload(), 2500);
+
                     } else {
                         Swal.fire({
                             icon: 'error',

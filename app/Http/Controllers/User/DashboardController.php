@@ -7,16 +7,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\KycRequest;
 use App\Models\Investment;
 use App\Models\Transaction;
+use App\Repositories\MiscRepository;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class DashboardController extends Controller
 {
-    public function __construct(protected UserRepository $userRepository)
+    public function __construct(
+        protected UserRepository $userRepository, 
+        protected MiscRepository $miscRepository
+    )
     {
         
     }
@@ -65,19 +68,14 @@ class DashboardController extends Controller
         $data = [];
         $data['user'] = auth('web')->user();
 
-        $client =  new Client();
-        $url = 'https://restcountries.com/v3.1/all?fields=name';
+        $countries = $this->miscRepository->fetchCountries();
 
-        $response = $client->request('GET', $url, [
-            'verify' => false,
-        ]);
-
-        $data['countries'] = json_decode($response->getBody());
+        $data['countries'] = json_decode($countries->getBody());
 
         return view('user.dashboard.profile', $data);
     }
     
-    public function kycProfile(Request $request)
+    public function profileUpdate(Request $request)
     {
         $request->validate([
             'name' => 'required|min:4|string',
@@ -93,10 +91,10 @@ class DashboardController extends Controller
         return response()->json(['status' => false, 'message' => 'Unable to update Profile']);
     }
     
-    public function kycAddress(KycRequest $request)
+    public function addressUpdate(KycRequest $request)
     {
         $user = $request->user('web');
-        if ($this->userRepository->updateKyc($request->validated(), $user)) {
+        if ($this->userRepository->updateUserAddress($request->validated(), $user)) {
             return response()->json(['status' => true, 'message' => 'Profile updated']);
         }
         return response()->json(['status' => false, 'message' => 'Unable to update Profile']);

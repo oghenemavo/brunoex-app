@@ -65,22 +65,22 @@ class UserRepository implements IUserRepository
     public function updateUser(array $attributes, User $user)
     {
         $user->name = data_get($attributes, 'name', $user->name);
-        $user->kyc->put('phone', data_get($attributes, 'phone', $user->kyc->get('phone')));
-        $user->kyc->put('gender', data_get($attributes, 'gender', $user->kyc->get('gender')));
-        $user->kyc->put('dob', data_get($attributes, 'dob', $user->kyc->get('dob')));
+        $user->profile->put('phone', data_get($attributes, 'phone', $user->profile->get('phone')));
+        $user->profile->put('gender', data_get($attributes, 'gender', $user->profile->get('gender')));
+        $user->profile->put('dob', data_get($attributes, 'dob', $user->profile->get('dob')));
 
         return $user->save();
     }
 
-    public function updateKyc(array $attributes, User $user)
+    public function updateUserAddress(array $attributes, User $user)
     {
-        $user->kyc->put('address', data_get($attributes, 'address', $user->kyc->get('address')));
-        $user->kyc->put('address_two', data_get($attributes, 'address_two', $user->kyc->get('address_two')));
-        $user->kyc->put('city', data_get($attributes, 'city', $user->kyc->get('city')));
-        $user->kyc->put('state', data_get($attributes, 'state', $user->kyc->get('state')));
-        $user->kyc->put('zip', data_get($attributes, 'zip', $user->kyc->get('zip')));
-        $user->kyc->put('country', data_get($attributes, 'country', $user->kyc->get('country')));
-        $user->kyc->put('nation', data_get($attributes, 'nation', $user->kyc->get('nation')));
+        $user->profile->put('address', data_get($attributes, 'address', $user->profile->get('address')));
+        $user->profile->put('address_alt', data_get($attributes, 'address_alt', $user->profile->get('address_alt')));
+        $user->profile->put('city', data_get($attributes, 'city', $user->profile->get('city')));
+        $user->profile->put('state', data_get($attributes, 'state', $user->profile->get('state')));
+        $user->profile->put('zip', data_get($attributes, 'zip', $user->profile->get('zip')));
+        $user->profile->put('country', data_get($attributes, 'country', $user->profile->get('country')));
+        $user->profile->put('nationality', data_get($attributes, 'nationality', $user->profile->get('nationality')));
 
         return $user->save();
     }
