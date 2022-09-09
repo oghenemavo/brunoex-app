@@ -20,27 +20,117 @@
         </div><!-- .nk-block-between -->
     </x-slot>
 
+    <div class="nk-block-head-xs">
+        <div class="nk-block-head-content">
+            <h5 class="nk-block-title title">Overview</h5>
+        </div>
+    </div><!-- .nk-block-head -->
+
     <div class="nk-block">
-        <div class="row gy-gs">
-            <div class="col-lg-5 col-xl-4">
-                <div class="nk-block">
-                    <div class="nk-block-head-xs">
-                        <div class="nk-block-head-content">
-                            <h5 class="nk-block-title title">Overview</h5>
+        <div class="row g-gs">
+            <div class="col-md-4">
+                <div class="card card-full card-bordered card-wg on-bottom is-primary">
+                    <div class="card-inner">
+                        <div class="card-title-group">
+                            <div class="card-title">
+                                <h5 class="nk-wgacc-title">Total Investment</h5>
+                            </div>
+                            <div class="card-tools">
+                                <em class="icon ni ni-info fs-13px text-soft nk-tooltip" title="" data-original-title="Main account balance without locked or under progress."></em>
+                            </div>
                         </div>
-                    </div><!-- .nk-block-head -->
-                    <div class="nk-block">
-                        <div class="card card-bordered text-light is-dark h-100">
+                    <div class="card-amount mt-2 mb-1">
+                        <span class="amount">@money($total_investment) <span class="currency">USD</span></span>
+                    </div>
+                    <div class="card-stats">
+                        <div class="card-stats-group g-2">
+                            <div class="card-stats-data">
+                                <div class="title fw-bold">
+                                    This Month
+                                    <em class="icon ni ni-info-fill fs-12px text-soft nk-tooltip" title="" data-original-title="Additional balance in your Investment account."></em>
+                                </div>
+                                <div class="amount fw-bold">
+                                    @money($total_investment_month) <span class="currency fw-normal">USD</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-stats-ck sm">
                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
 
+            <div class="col-md-4">
+                <div class="card card-full card-bordered card-wg on-bottom is-base">
+                    <div class="card-inner">
+                        <div class="card-title-group">
+                            <div class="card-title">
+                                <h5 class="nk-wgacc-title">Total Deposit</h5>
+                            </div>
+                        <div class="card-tools">
+                            <em class="icon ni ni-info fs-13px text-soft nk-tooltip" title="" data-original-title="The total Deposit amount without under progress."></em>
+                        </div>
+                    </div>
+                    <div class="card-amount mt-2 mb-1">
+                        <span class="amount">@money($total_deposit) <span class="currency">USD</span></span>
+                    </div>
+                    <div class="card-stats">
+                        <div class="card-stats-group g-2">
+                            <div class="card-stats-data">
+                                <div class="title fw-bold">
+                                    This Month
+                                </div>
+                                <div class="amount fw-bold">
+                                    @money($total_deposit_month) <span class="currency fw-normal">USD</span> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-stats-ck sm">
+                            
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+            </div>
 
-                        </div><!-- .card -->
-                    </div><!-- .nk-block -->
-                </div><!-- .nk-block -->
-            </div><!-- .col -->
-        </div><!-- .row -->
-    </div><!-- .nk-block -->
+            <div class="col-md-4">
+                <div class="card card-full card-bordered card-wg on-bottom is-warning">
+                    <div class="card-inner">
+                        <div class="card-title-group">
+                            <div class="card-title">
+                                <h5 class="nk-wgacc-title">Total Withdraw</h5>
+                            </div>
+                        <div class="card-tools">
+                            <em class="icon ni ni-info fs-13px text-soft nk-tooltip" title="" data-original-title="The total Withdraw amount without under progress."></em>
+                        </div>
+                    </div>
+                    <div class="card-amount mt-2 mb-1">
+                        <span class="amount">@money($total_withdraw) <span class="currency">USD</span></span>
+                    </div>
+                    <div class="card-stats">
+                        <div class="card-stats-group g-2">
+                            <div class="card-stats-data">
+                                <div class="title fw-bold">
+                                    This Month
+                                </div>
+                                <div class="amount fw-bold">
+                                @money($total_withdraw_month) <span class="currency fw-normal">USD</span> 
+                                </div>
+                            </div>
+                        </div>
+                    <div class="card-stats-ck sm">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+
+        </div>
+    </div>
     
     <div class="nk-block">
         <div class="card card-bordered">

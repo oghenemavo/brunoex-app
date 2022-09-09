@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\TransactionTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Investment;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -14,11 +16,20 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $month = Carbon::now()->month;
+
         $data = [];
         $data['user'] = auth('web')->user();
-        // $data['orders'] = Investment::query()->where('status', 'PENDING')->sum('amount');
-        // $data['profit_7days'] = Investment::query()->where('status', 'PENDING')
-        // ->whereDate('due_at', Carbon::now()->subDays(7))->sum('profit');
+
+        $data['total_investment'] = Investment::query()->where('user_id', $data['user']->id)->sum('amount');
+        $data['total_investment_month'] = Investment::query()->where('user_id', $data['user']->id)->whereMonth('created_at', $month)->sum('amount');
+
+        $data['total_deposit'] = Transaction::query()->where('user_id', $data['user']->id)->where('type', TransactionTypeEnum::CREDIT)->whereJsonContains('details->type', 'Deposit')->sum('amount');
+        $data['total_deposit_month'] = Transaction::query()->where('user_id', $data['user']->id)->where('type', TransactionTypeEnum::CREDIT)->whereJsonContains('details->type', 'Deposit')->whereMonth('created_at', $month)->sum('amount');
+
+        $data['total_withdraw'] = Transaction::query()->where('user_id', $data['user']->id)->where('type', TransactionTypeEnum::DEBIT)->whereJsonContains('details->type', 'Withdraw')->sum('amount');
+        $data['total_withdraw_month'] = Transaction::query()->where('user_id', $data['user']->id)->where('type', TransactionTypeEnum::DEBIT)->whereJsonContains('details->type', 'Withdraw')->whereMonth('created_at', $month)->sum('amount');
+
         return view('user.dashboard.index', $data);
     }
 
