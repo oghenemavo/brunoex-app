@@ -20,7 +20,7 @@
                         <form id="transfer" action="{{ route('user.make.transfer') }}">
                             @csrf
 
-                            <input type="hidden" name="balance" value="{{ $balance }}">
+                            <input type="hidden" id="balance" value="{{ $balance }}">
 
                             <div class="form-group">
                                 <label class="form-label" for="email">Recipient's Email</label>
@@ -77,8 +77,13 @@
                     // clear error ui
                     $('.is-invalid').removeClass('is-invalid');
                     $('.invalid-feedback').remove();
+
+                    // console.log($(form).find('input[name="balance"]').val() < $(form).find('#amount').val());
+
+                    const bal = parseFloat($(form).find('#balance').val());
+                    const amt = parseFloat($(form).find('#amount').val());
                     
-                    if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
+                    if (bal < amt) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -123,7 +128,7 @@
     
                     // console.log(XMLHttpRequest)
                     let errors = XMLHttpRequest.responseJSON.errors;
-                    // console.log(errors)
+                    console.log(errors)
                     if (errors.hasOwnProperty('email')) {
                         const email = $('#email').addClass('is-invalid');
                         $(`<span class="invalid-feedback" role="alert">${errors.email[0]}</span>`).insertAfter(email);

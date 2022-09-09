@@ -20,7 +20,7 @@
                         <form id="invest" action="{{ route('user.make.investment') }}">
                             @csrf
 
-                            <input type="hidden" name="balance" value="{{ $balance }}">
+                            <input type="hidden" id="balance" value="{{ $balance }}">
 
                             <div class="form-group">
                                 <label for="plan" class="form-label">Plans</label>
@@ -71,7 +71,10 @@
                     $('.is-invalid').removeClass('is-invalid');
                     $('.invalid-feedback').remove();
 
-                    if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
+                    const bal = parseFloat($(form).find('#balance').val());
+                    const amt = parseFloat($(form).find('#amount').val());
+                    
+                    if (bal < amt) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',

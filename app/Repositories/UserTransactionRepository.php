@@ -24,7 +24,7 @@ class UserTransactionRepository implements IUserTransactionRepository
     public function depositRequest(array $attributes)
     {
         return $this->transRequest->create([
-            'user_id' => auth()->user()->id,
+            'user_id' => request()->user()->id,
             'request' => 'DEPOSIT',
             'status' => TransRequestStatusEnum::PENDING,
             'details' => [
@@ -37,7 +37,7 @@ class UserTransactionRepository implements IUserTransactionRepository
     public function withdrawRequest(array $attributes)
     {
         return $this->transRequest->create([
-            'user_id' => auth()->user()->id,
+            'user_id' => request()->user()->id,
             'request' => 'WITHDRAW',
             'status' => TransRequestStatusEnum::PENDING,
             'details' => [
@@ -49,7 +49,7 @@ class UserTransactionRepository implements IUserTransactionRepository
 
     public function transfer(array $attributes)
     {
-        $user = auth()->user();
+        $user = request()->user();
         $amount = data_get($attributes, 'amount');
 
         if (validBalance($user, $amount)) {
@@ -95,8 +95,8 @@ class UserTransactionRepository implements IUserTransactionRepository
                         'updated_at' => Carbon::now(),
                     ],
                 ]);
+                return true;
             });
-            return true;
         }
         return false;
     }

@@ -33,14 +33,14 @@ class TransactionController extends Controller
     public function withdraw()
     {
         $data= [];
-        $data['balance'] = auth('web')->user()->wallet->balance;
+        $data['balance'] = request()->user()->wallet->balance;
         return view('user.dashboard.withdraw', $data);
     }
 
     public function makeWithdrawal(DepositRequest $request)
     {
         $data = $request->validated();
-        $user = auth('web')->user();
+        $user = request()->user();
         
         if (validBalance($user, $request->amount)) {
             if ($this->userTransactionRepository->withdrawRequest($data)) {
@@ -54,21 +54,21 @@ class TransactionController extends Controller
     public function transfer()
     {
         $data= [];
-        $data['balance'] = auth('web')->user()->wallet->balance;
+        $data['balance'] = request()->user()->wallet->balance;
         return view('user.dashboard.transfer', $data);
     }
 
     public function makeTransfer(TransferRequest $request)
     {
         $data = $request->validated();
-        $user = auth('web')->user();
+        $user = request()->user();
 
         if (validBalance($user, $request->amount)) {
-            if ($this->userTransactionRepository->withdrawRequest($data)) {
+            if ($this->userTransactionRepository->transfer($data)) {
                 return response()->json(['status' => true, 'message' => 'Transfer Successful']);
             }
             return response()->json(['status' => false, 'message' => 'Unable to perform transfer']);
         }
-        return response()->json(['status' => false, 'message' => 'Insufficient Balance']);
+        return response()->json(['status' => false, 'message' => 'Insufficient Balance!']);
     }
 }

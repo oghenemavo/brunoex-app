@@ -19,7 +19,7 @@
                     <div class="card-inner">
                         <form id="withdraw" action="{{ route('user.make.withdraw') }}">
                             @csrf
-                            <input type="hidden" name="balance" value="{{ $balance }}">
+                            <input type="hidden" id="balance" value="{{ $balance }}">
 
                             <div class="form-group">
                                 <label class="form-label" for="amount">Amount</label>
@@ -66,7 +66,10 @@
                     $('.is-invalid').removeClass('is-invalid');
                     $('.invalid-feedback').remove();
                     
-                    if ($(form).find('input[name="balance"]').val() < $(form).find('#amount').val()) {
+                    const bal = parseFloat($(form).find('#balance').val());
+                    const amt = parseFloat($(form).find('#amount').val());
+                    
+                    if (bal < amt) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
