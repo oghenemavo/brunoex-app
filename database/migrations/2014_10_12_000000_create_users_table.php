@@ -20,8 +20,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->json('profile')->nullable();
+            $table->json('account')->nullable();
             $table->json('kyc')->nullable();
             $table->json('kyc_verified')->nullable();
+            $table->string('kyc_status')->nullable();
+            $table->string('kyc_submitted')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->string('status')->default('ACTIVE');

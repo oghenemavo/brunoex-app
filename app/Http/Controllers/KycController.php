@@ -30,9 +30,9 @@ class KycController extends Controller
     {
         $data = $request->validated();
 
-        $SelfiePath = Storage::putFile('selfies', $request->file('selfie'));
-        $frontPath = Storage::putFile('documents', $request->file('document_front'));
-        $backPath = Storage::putFile('documents', $request->file('document_back'));
+        $SelfiePath = Storage::putFile('public/selfies', $request->file('selfie'));
+        $frontPath = Storage::putFile('public/documents', $request->file('document_front'));
+        $backPath = Storage::putFile('public/documents', $request->file('document_back'));
         $data['selfie'] = $SelfiePath;
         $data['document_front'] = $frontPath;
         $data['document_back'] = $backPath;

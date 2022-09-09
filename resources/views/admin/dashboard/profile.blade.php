@@ -130,7 +130,7 @@
                     </ul><!-- .nav-tabs -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="personal">
-                            <form id="kyc-profile" action="{{ route('admin.kyc.profile') }}" method="POST">
+                            <form id="kyc-profile" action="{{ route('admin.update.profile') }}" method="POST">
                                 @csrf
                                 <div class="row gy-4">
                                     <div class="col-md-6">

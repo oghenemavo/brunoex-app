@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DataController;
+use App\Http\Controllers\Admin\KycController as AdminKycController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
@@ -82,14 +83,12 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::get('transactions-request', [DashboardController::class, 'transactionsRequest'])->name('transactions.request');
             Route::get('transactions-treated', [DashboardController::class, 'transactionsTreatedRequest'])->name('transactions.treated.request');
             
-
             Route::prefix('data')->name('data.')->group(function() {
                 Route::get('investments', [UserDataController::class, 'allInvestment'])->name('investment');
                 Route::get('transactions', [UserDataController::class, 'allTransactions'])->name('transactions');
                 Route::get('transactions-request', [UserDataController::class, 'allTransactionsRequest'])->name('transactions.request');
                 Route::get('transactions-treated', [UserDataController::class, 'allTransactionsTreatedRequest'])->name('transactions.treated.request');
             });
-            
         });
         
     });
@@ -113,8 +112,11 @@ Route::middleware('prevent_cached_history')->group(function() {
             Route::get('logout', [AuthController::class, 'logout'])->name('logout');
             Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
             Route::get('profile', [AdminDashboardController::class, 'profile'])->name('profile');
-            Route::put('kyc-profile', [AdminDashboardController::class, 'kycProfile'])->name('kyc.profile');
+            Route::put('update-profile', [AdminDashboardController::class, 'updateProfile'])->name('update.profile');
             Route::get('profile/settings', [AdminDashboardController::class, 'settings'])->name('profile.settings');
+            
+            Route::get('user/{user}/kyc', [AdminKycController::class, 'profile'])->name('kyc.profile');
+            Route::post('dl/kyc', [AdminKycController::class, 'download'])->name('dl.kyc');
     
             Route::put('change-password', [AdminDashboardController::class, 'password'])->name('change.password');
             Route::put('change-email', [AdminDashboardController::class, 'email'])->name('change.email');

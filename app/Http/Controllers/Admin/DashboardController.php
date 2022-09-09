@@ -33,7 +33,7 @@ class DashboardController extends Controller
         return view('admin.dashboard.security', $data);
     }
 
-    public function kycProfile(Request $request)
+    public function updateProfile(Request $request)
     {
         $request->validate([
             'name' => 'required|min:4|string',
